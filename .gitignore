@@ -1,0 +1,16 @@
+# deps / build
+node_modules/
+dist/
+.vercel/
+*.tsbuildinfo
+
+# secrets: never commit
+.env
+.env.*
+!.env.example
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json

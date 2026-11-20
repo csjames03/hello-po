@@ -1,0 +1,22 @@
+{
+  "name": "@hello-po/agent",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/main.ts dev",
+    "start": "node src/main.ts start",
+    "download-files": "node src/main.ts download-files",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hello-po/shared": "*",
+    "@livekit/agents": "1.10.1",
+    "@livekit/agents-plugin-deepgram": "1.10.1",
+    "@livekit/agents-plugin-openai": "1.10.1",
+    "@livekit/agents-plugin-silero": "1.10.1",
+    "@livekit/rtc-node": "^1.2.3",
+    "dotenv": "^18.0.10",
+    "zod": "^4.6.7"
+  }
+}
