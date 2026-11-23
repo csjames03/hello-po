@@ -18,6 +18,10 @@ export const config = {
   groqApiKey: required('GROQ_API_KEY'),
   // Groq retired its Llama chat models; Qwen3 with thinking off was the fastest steady option.
   llmModel: process.env.LLM_MODEL ?? 'qwen/qwen3.8-27b',
-  sttModel: process.env.STT_MODEL ?? 'nova-3',
+  // Flux measured faster than Nova-3 (p50 1362 ms vs ~1500 ms) with no cut-offs.
+  sttModel: process.env.STT_MODEL ?? 'flux-general-en',
   ttsVoice: process.env.TTS_VOICE ?? 'aura-2-asteria-en',
+  // Optional: without these, turns are only logged to the console.
+  supabaseUrl: process.env.SUPABASE_URL?.replace(/\/+$/, ''),
+  supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
 };

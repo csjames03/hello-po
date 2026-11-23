@@ -23,14 +23,27 @@ export interface SentimentEvent {
   label: 'negative' | 'neutral' | 'positive';
 }
 
+/**
+ * Per-turn latency, measured by the agent. All values in milliseconds.
+ * Stage values are null when the SDK did not report that stage for the turn.
+ * Stages can overlap (the LLM may start before the turn is committed), so
+ * they do not necessarily sum to totalMs.
+ */
 export interface LatencyEvent {
   type: 'latency';
   turnId: string;
-  eotMs: number;
-  sttMs: number;
-  llmFirstTokenMs: number;
-  ttsFirstAudioMs: number;
+  /** End of user speech -> turn committed. */
+  eotMs: number | null;
+  /** End of user speech -> final transcript. */
+  sttMs: number | null;
+  /** LLM request -> first token. */
+  llmFirstTokenMs: number | null;
+  /** First text sent to TTS -> first audio. */
+  ttsFirstAudioMs: number | null;
+  /** Voice to voice: user stopped speaking -> agent started speaking. */
   totalMs: number;
+  /** True if the caller interrupted this reply. */
+  interrupted: boolean;
 }
 
 export interface InterruptEvent {

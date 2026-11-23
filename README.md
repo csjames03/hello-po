@@ -6,11 +6,11 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 
 > "Hello po" is a polite Filipino greeting, the kind you would hear when calling a front desk in the Philippines.
 
-|            |                                                                                             |
-| ---------- | ------------------------------------------------------------------------------------------- |
-| **Status** | Phase 1 (MVP) complete: working end-to-end voice calls. See the [roadmap](docs/roadmap.md). |
-| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost              |
-| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                   |
+|            |                                                                                                                                                                             |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Status** | Phase 2 (latency) complete: **p50 450 ms / p95 945 ms** voice to voice over 22 turns. See [measured performance](#measured-performance) and the [roadmap](docs/roadmap.md). |
+| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost                                                                                              |
+| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                                                                                                   |
 
 ---
 
@@ -52,6 +52,36 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 ### Planned
 
 Per-turn latency waterfall, barge-in (interrupting the agent), knowledge-base retrieval, booking and availability tools, support tickets, human handoff, sentiment tracking, a metrics dashboard, an automated eval suite, and a passcode-protected public demo. See the [roadmap](docs/roadmap.md).
+
+---
+
+## Measured performance
+
+Voice-to-voice latency is the time from the caller's last word to the agent's first sound, measured by the agent for every turn. The Phase 2 acceptance run used three scripted calls (22 turns) against the deployed agent.
+
+| Stage                                           | p50        | p95        | Budget |
+| ----------------------------------------------- | ---------- | ---------- | ------ |
+| **Voice to voice (total)**                      | **450 ms** | **945 ms** | 800 ms |
+| End of turn (after the Flux end-of-turn signal) | 1 ms       | 3 ms       | 200 ms |
+| LLM first token (Groq)                          | 177 ms     | 723 ms     | 200 ms |
+| TTS first audio (Deepgram)                      | 201 ms     | 244 ms     | 150 ms |
+
+How the numbers came down:
+
+| Configuration                              | p50        | p95        | Turns |
+| ------------------------------------------ | ---------- | ---------- | ----- |
+| Local agent, SDK defaults, Nova-3          | ~3,100 ms  | ~6,300 ms  | 4     |
+| Local agent, tuned turn-taking, Nova-3     | ~1,500 ms  | ~1,850 ms  | 3     |
+| Local agent, Deepgram Flux                 | 1,362 ms   | 1,903 ms   | 8     |
+| **Agent on LiveKit Cloud (us-east), Flux** | **450 ms** | **945 ms** | 22    |
+
+Raw data: [`docs/results/phase-2-cloud-latency.log`](docs/results/phase-2-cloud-latency.log). Reproduce the summary with:
+
+```bash
+npm run latency:report -- --lines docs/results/phase-2-cloud-latency.log
+```
+
+> The total is measured on the agent. Audio travelling between the caller and the agent's region adds network time on top, which is not yet measured end to end.
 
 ---
 
@@ -103,7 +133,7 @@ A deeper walkthrough, including the call lifecycle and event formats, is in [doc
 | Monorepo       | npm workspaces                                                    | Shared types between apps with no extra tooling.                                                             |
 | Agent runtime  | [LiveKit Agents](https://docs.livekit.io/agents/) Node SDK `1.10` | Handles the realtime audio pipeline, turn-taking, and room I/O.                                              |
 | Transport      | LiveKit Cloud (WebRTC)                                            | Low-latency audio with a global edge network and a free Build plan.                                          |
-| Speech-to-text | Deepgram Nova-3 (streaming)                                       | Fast, accurate streaming transcription with interim results.                                                 |
+| Speech-to-text | Deepgram Flux (`flux-general-en`, streaming)                      | Built for voice agents: detects end of turn from meaning and silence. Measured faster than Nova-3 here.      |
 | LLM            | Groq `qwen/qwen3.8-27b`                                           | Groq's inference is very fast; Qwen3 with reasoning disabled gave the steadiest first-token time in testing. |
 | Text-to-speech | Deepgram Aura-2 (`aura-2-asteria-en`)                             | Low time-to-first-audio, natural voice.                                                                      |
 | Voice activity | Silero VAD                                                        | Local, lightweight detection of when the caller is speaking.                                                 |
@@ -122,7 +152,11 @@ hello-po/
 │   │   └── src/
 │   │       ├── main.ts       # Worker entry: prewarm, session setup, greeting
 │   │       ├── providers.ts  # STT / LLM / TTS / VAD factories (swap vendors here)
-│   │       ├── prompt.ts     # Agent persona, rules, and resort facts
+│   │       ├── prompt.ts     # Agent persona, rules, greeting, STT key terms
+│   │       ├── latency.ts    # Per-turn latency from the SDK's message metrics
+│   │       ├── events.ts     # Publishes events to the browser (data channel)
+│   │       ├── db.ts         # Supabase call and turn logging
+│   │       ├── turn-log.ts   # Local logs/turns.jsonl fallback
 │   │       └── config.ts     # Loads .env and exposes typed config
 │   ├── token-server/         # Express endpoint that mints LiveKit tokens
 │   │   └── src/index.ts
@@ -131,6 +165,7 @@ hello-po/
 │       ├── vite.config.ts    # Dev proxy: /api -> token server
 │       └── src/
 │           ├── App.tsx       # Call button, agent state, live transcript
+│           ├── LatencyPanel.tsx  # Live per-turn latency table
 │           ├── main.tsx
 │           └── index.css
 ├── packages/
@@ -138,7 +173,14 @@ hello-po/
 │       └── src/index.ts      # Data-channel event types, agent name
 ├── docs/
 │   ├── architecture.md       # System design and call lifecycle
-│   └── roadmap.md            # Phases and acceptance criteria
+│   ├── roadmap.md            # Phases and acceptance criteria
+│   └── results/              # Raw measurement data from acceptance runs
+├── scripts/
+│   └── latency-report.ts     # p50 / p95 latency summary
+├── supabase/
+│   └── migrations/           # SQL schema for calls and turns
+├── Dockerfile                # Agent image for LiveKit Cloud
+├── livekit.toml              # LiveKit Cloud agent id (created by the CLI)
 ├── .env.example              # Every environment variable, documented
 ├── eslint.config.mjs
 ├── tsconfig.base.json
@@ -231,15 +273,16 @@ INFO: registered worker
 
 Run from the repo root.
 
-| Command                | Description                                |
-| ---------------------- | ------------------------------------------ |
-| `npm run dev:agent`    | Start the agent worker in development mode |
-| `npm run dev:token`    | Start the token server with file watching  |
-| `npm run dev:web`      | Start the Vite dev server                  |
-| `npm run typecheck`    | Type-check every workspace                 |
-| `npm run lint`         | Lint the whole repo with ESLint            |
-| `npm run format`       | Format the whole repo with Prettier        |
-| `npm run format:check` | Check formatting without writing           |
+| Command                  | Description                                                                |
+| ------------------------ | -------------------------------------------------------------------------- |
+| `npm run dev:agent`      | Start the agent worker in development mode                                 |
+| `npm run dev:token`      | Start the token server with file watching                                  |
+| `npm run dev:web`        | Start the Vite dev server                                                  |
+| `npm run typecheck`      | Type-check every workspace                                                 |
+| `npm run lint`           | Lint the whole repo with ESLint                                            |
+| `npm run format`         | Format the whole repo with Prettier                                        |
+| `npm run format:check`   | Check formatting without writing                                           |
+| `npm run latency:report` | Print p50 / p95 latency per stage (`--local`, `--lines FILE`, or Supabase) |
 
 TypeScript runs directly on Node 24 through native type stripping, so the agent and token server have no build step in development.
 
@@ -274,7 +317,7 @@ All variables live in `.env` at the repo root. See [`.env.example`](.env.example
 | Variable            | Default             | Description                                                     |
 | ------------------- | ------------------- | --------------------------------------------------------------- |
 | `LLM_MODEL`         | `qwen/qwen3.8-27b`  | Any Groq chat model id                                          |
-| `STT_MODEL`         | `nova-3`            | Deepgram speech-to-text model                                   |
+| `STT_MODEL`         | `flux-general-en`   | Deepgram speech-to-text model (`flux-general-en` or `nova-3`)   |
 | `TTS_VOICE`         | `aura-2-asteria-en` | Deepgram Aura voice                                             |
 | `TOKEN_SERVER_PORT` | `3001`              | Token server port (update `apps/web/vite.config.ts` if changed) |
 
@@ -290,9 +333,36 @@ All variables live in `.env` at the repo root. See [`.env.example`](.env.example
 
 **Explicit agent dispatch.** The worker registers under a fixed name (`hello-po-agent`), and the token server embeds a dispatch for that name in each token. The agent only joins rooms created by this app, never stray rooms in the same LiveKit project.
 
-**No turn-detector model in the MVP.** The LiveKit turn-detector model holds about 450 MB of weights in memory. Phase 1 uses Deepgram endpointing plus Silero VAD, which is lighter and good enough to prove the pipeline. The turn-detection strategy is evaluated properly in Phase 3.
+**Deepgram Flux for end-of-turn detection.** Flux decides when the caller has finished from both meaning and silence, and sends an early "probably done" signal that lets the LLM start before the turn is confirmed. With Flux the agent adds no extra wait after the end-of-turn signal. It beat Nova-3 with silence-based endpointing in side-by-side calls, and avoids loading the LiveKit turn-detector model, which holds about 450 MB of weights in memory.
+
+**Turn-taking tuned against noise.** With SDK defaults, background noise was treated as the caller interrupting, which paused replies for one to two seconds. Interruptions now require at least one transcribed word, false interruptions resume after one second, and the VAD threshold is raised.
+
+**Agent hosted next to its providers.** Deepgram serves from the US, about 250 ms round trip from the Philippines. Running the agent on LiveKit Cloud in `us-east` cut those round trips to a few milliseconds and brought the p50 from 1,362 ms to 450 ms, even though caller audio now travels further.
+
+**Fixed greeting, capped replies.** The greeting is spoken verbatim with `session.say()` instead of being generated, because Qwen's chat template rejects a request with no user message. Replies are capped at 150 tokens, because Groq's free tier budgets each request at its maximum output length against a per-minute output limit.
 
 **Standard token endpoint format.** The token server returns LiveKit's standard response shape (`server_url`, `participant_token`), so the frontend uses the official `TokenSource.endpoint()` and `useSession()` APIs instead of custom connection code.
+
+---
+
+## Deploying the agent
+
+The agent runs on LiveKit Cloud (free Build plan: one deployment, five concurrent sessions, 1,000 agent minutes a month, no card). The image is built from the repo-root `Dockerfile`, which installs only the agent workspace.
+
+```bash
+# One-time: register the project with the CLI using the keys from .env
+lk project add hello-po --url "$LIVEKIT_URL" --api-key "$LIVEKIT_API_KEY" --api-secret "$LIVEKIT_API_SECRET" --default
+
+# First deploy (the region cannot be changed later). Secrets must not include LIVEKIT_* keys.
+lk agent create --region us-east --secrets-file agent-secrets.env .
+
+# Later deploys, status and logs
+lk agent deploy .
+lk agent status
+lk agent logs
+```
+
+On the Build plan the agent scales to zero when idle, so the first call after a quiet period takes 10 to 20 seconds to connect. Stop any locally running agent while testing the deployed one: both register under the same name, and LiveKit dispatches calls to either.
 
 ---
 
@@ -354,8 +424,8 @@ Use headphones. Without them, the agent's voice can reach your microphone. Echo 
 | Phase | Focus                                                                          | Status  |
 | ----- | ------------------------------------------------------------------------------ | ------- |
 | 1     | **MVP:** working browser voice call with a live transcript                     | Done    |
-| 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Next    |
-| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Planned |
+| 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Done    |
+| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Next    |
 | 4     | **Brain:** knowledge base, tools, handoff rules, sentiment                     | Planned |
 | 5     | **UI and evals:** latency waterfall, sentiment panel, metrics page, eval suite | Planned |
 | 6     | **Ship:** deploy, cost guardrails, case study                                  | Planned |

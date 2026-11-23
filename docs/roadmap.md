@@ -5,8 +5,8 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 | Phase                                        | Focus                           | Status  |
 | -------------------------------------------- | ------------------------------- | ------- |
 | [1](#phase-1--mvp)                           | MVP: working voice call         | Done    |
-| [2](#phase-2--latency)                       | Latency                         | Next    |
-| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking   | Planned |
+| [2](#phase-2--latency)                       | Latency                         | Done    |
+| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking   | Next    |
 | [4](#phase-4--brain)                         | Knowledge, tools, and sentiment | Planned |
 | [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals    | Planned |
 | [6](#phase-6--ship)                          | Deployment and guardrails       | Planned |
@@ -44,16 +44,19 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 
 **Goal:** measure every stage of every turn and get the median reply under one second.
 
-- [ ] Confirm streaming end to end: interim transcripts, LLM token streaming, TTS starting on the first full sentence
-- [ ] Timestamp each stage boundary per turn: end of turn, STT final, LLM first token, TTS first audio
-- [ ] Emit `latency` events to the browser and log each turn to the console
-- [ ] Supabase schema for `calls` and `turns`; persist timings for every turn
-- [ ] Compare Deepgram Flux (built-in end-of-turn detection) against Nova-3
-- [ ] Re-validate the LLM choice with real end-to-end numbers
-- [ ] Confirm the nearest LiveKit region and measure transport overhead
-- [ ] Summary script that prints p50 / p95 and a per-stage breakdown
+- [x] Streaming end to end: interim transcripts, LLM token streaming, TTS starting on the first full sentence, and preemptive LLM generation on Flux's early end-of-turn signal
+- [x] Per-turn stage timings from the SDK: end of turn, STT final, LLM first token, TTS first audio, voice-to-voice total
+- [x] `latency` events to the browser (live table), `[latency]` console lines, and a local `logs/turns.jsonl`
+- [x] Supabase schema for `calls` and `turns` (`supabase/migrations/`) and the logging code
+- [x] Compared Deepgram Flux against Nova-3; Flux is the default
+- [x] Tuned turn-taking: endpointing delay, noise-resistant interruptions, VAD threshold
+- [x] Fixed silent replies (Groq output-token limit) and the greeting request error
+- [x] Deployed the agent to LiveKit Cloud `us-east`, next to Deepgram
+- [x] `npm run latency:report` prints p50 / p95 per stage
+- [x] Applied the Supabase migrations (`0001` tables, `0002` grants for the server role only); calls and turns are logged by the deployed agent
+- [ ] Re-validate the LLM choice (`openai/gpt-oss-20b`) with real calls (carried over)
 
-**Acceptance:** p50 voice-to-voice < 1 s over 20 turns, with a printed p50 / p95 summary.
+**Acceptance:** p50 voice-to-voice < 1 s over 20 turns, with a printed p50 / p95 summary. ✅ **p50 450 ms, p95 945 ms over 22 turns** ([raw data](results/phase-2-cloud-latency.log)).
 
 ---
 

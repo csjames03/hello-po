@@ -8,6 +8,7 @@ import {
 } from '@livekit/components-react';
 import { TokenSource } from 'livekit-client';
 import { useEffect, useRef, useState } from 'react';
+import { LatencyPanel } from './LatencyPanel.tsx';
 
 // Module-level so the hook gets a stable token source.
 const tokenSource = TokenSource.endpoint('/api/token');
@@ -101,6 +102,8 @@ function CallScreen() {
         ))}
         <div ref={bottomRef} />
       </section>
+
+      {inCall && <LatencyPanel />}
 
       <RoomAudioRenderer />
     </main>

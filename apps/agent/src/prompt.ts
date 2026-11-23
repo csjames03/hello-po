@@ -19,5 +19,19 @@ Rules:
 - If the caller asks for a human or is upset, apologise and say a staff member will call them back.
 `.trim();
 
+// Spoken verbatim with session.say(). Generating it with the LLM failed on Qwen, whose chat
+// template rejects a request with no user message, and cost an extra request per call.
 export const greeting =
-  'Greet the caller warmly as Mara from Isla Azul Beach Resort and ask how you can help. One short sentence.';
+  'Hello, thank you for calling Isla Azul Beach Resort. This is Mara. How can I help you today?';
+
+/** Words the speech-to-text should favour; these were misheard in test calls. */
+export const keyterms = [
+  'Isla Azul',
+  'check-in',
+  'check-out',
+  'spa',
+  'arrival',
+  'front desk',
+  'kayak',
+  'cancellation',
+];

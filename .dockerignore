@@ -1,0 +1,11 @@
+**/node_modules
+apps/web
+apps/token-server
+docs
+logs
+scripts
+supabase
+.git
+.env
+.env.*
+*.md

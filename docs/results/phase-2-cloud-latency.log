@@ -1,0 +1,24 @@
+# Phase 2 acceptance run: cloud agent (LiveKit Cloud us-east), STT flux-general-en, LLM qwen/qwen3.8-27b, TTS aura-2-asteria-en
+# Source: lk agent logs, 3 scripted test calls, 22 turns, captured 2026-11-24
+[latency] total  450ms | eot    3ms | stt    0ms | llm  318ms | tts  101ms
+[latency] total  335ms | eot    1ms | stt    0ms | llm  212ms | tts   95ms
+[latency] total  453ms | eot    1ms | stt    0ms | llm  157ms | tts  217ms
+[latency] total  507ms | eot    1ms | stt    0ms | llm  102ms | tts  233ms
+[latency] total  350ms | eot    1ms | stt    0ms | llm  161ms | tts  148ms
+[latency] total  545ms | eot    1ms | stt    0ms | llm  177ms | tts  202ms
+[latency] total  556ms | eot    1ms | stt    0ms | llm  183ms | tts  199ms
+[latency] total  360ms | eot    2ms | stt    0ms | llm  328ms | tts  182ms
+[latency] total  745ms | eot    5ms | stt    0ms | llm  615ms | tts   92ms
+[latency] total  408ms | eot    1ms | stt    0ms | llm  208ms | tts  165ms
+[latency] total  524ms | eot    1ms | stt    0ms | llm  103ms | tts  210ms
+[latency] total  480ms | eot    1ms | stt    0ms | llm  342ms | tts  244ms
+[latency] total  311ms | eot    1ms | stt    0ms | llm  161ms | tts   91ms
+[latency] total  160ms | eot    2ms | stt    0ms | llm  149ms | tts   94ms
+[latency] total  446ms | eot    1ms | stt    0ms | llm   74ms | tts  214ms
+[latency] total  578ms | eot    2ms | stt    0ms | llm  167ms | tts  201ms
+[latency] total  419ms | eot    1ms | stt    0ms | llm   92ms | tts  201ms
+[latency] total 4061ms | eot    2ms | stt    0ms | llm 3661ms | tts  251ms
+[latency] total  891ms | eot    1ms | stt    0ms | llm  723ms | tts  232ms
+[latency] total  945ms | eot    2ms | stt    0ms | llm  560ms | tts  207ms
+[latency] total  432ms | eot    1ms | stt    0ms | llm  179ms | tts  177ms
+[latency] total  424ms | eot    1ms | stt    0ms | llm  107ms | tts  209ms

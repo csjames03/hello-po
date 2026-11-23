@@ -9,10 +9,14 @@
     "dev:agent": "npm run dev -w @hello-po/agent",
     "dev:token": "npm run dev -w @hello-po/token-server",
     "dev:web": "npm run dev -w @hello-po/web",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p scripts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "latency:report": "node scripts/latency-report.ts"
+  },
+  "dependencies": {
+    "@livekit/agents": "1.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

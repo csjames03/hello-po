@@ -157,6 +157,8 @@ sequenceDiagram
 
 If the agent doesn't join within 30 seconds, the web app marks the agent as `failed` and asks the caller to hang up and retry.
 
+On a cold start LiveKit can dispatch a second job to the same room. Each agent checks for other agents right after joining; if one with a lower identity is already there, it leaves. Exactly one agent stays in the call.
+
 ---
 
 ## The voice pipeline
@@ -165,8 +167,8 @@ If the agent doesn't join within 30 seconds, the web app marks the agent as `fai
 flowchart LR
     Mic([Caller audio]) --> VAD
     VAD["Silero VAD<br/>is someone speaking?"] --> STT
-    STT["Deepgram Nova-3<br/>interim + final transcripts"] --> EOT
-    EOT{"End of turn?<br/>STT endpointing"} -->|yes| LLM
+    STT["Deepgram Flux<br/>transcripts + end-of-turn signal"] --> EOT
+    EOT{"End of turn?<br/>Flux EndOfTurn"} -->|yes| LLM
     LLM["Groq Qwen3<br/>streamed tokens"] --> TTS
     TTS["Deepgram Aura-2<br/>sentence by sentence"] --> Out([Agent audio])
 ```
@@ -238,10 +240,21 @@ The target is a voice-to-voice reply, from the moment the caller stops speaking 
 
 Phase 2 adds a timestamp at each stage boundary, emits `latency` events, and stores them in Supabase so p50 and p95 can be computed over real calls.
 
-Early observations:
+Measured in the Phase 2 acceptance run (22 turns, agent on LiveKit Cloud `us-east`):
 
-- The worker registered through LiveKit's **Osaka (Japan)** node, the closest region to the Philippines.
-- Groq `qwen/qwen3.8-27b` measured about **260–310 ms** to first token from the Philippines, including network, slightly over its 200 ms budget.
+| Stage                  | p50    | p95    | Budget |
+| ---------------------- | ------ | ------ | ------ |
+| Voice to voice (total) | 450 ms | 945 ms | 800 ms |
+| End of turn            | 1 ms   | 3 ms   | 200 ms |
+| LLM first token        | 177 ms | 723 ms | 200 ms |
+| TTS first audio        | 201 ms | 244 ms | 150 ms |
+
+Measurement notes:
+
+- Values come from the SDK's per-message metrics: `e2eLatency` (user stopped speaking to agent started speaking), `endOfTurnDelay`, `transcriptionDelay`, `llmNodeTtft` and `ttsNodeTtfb`. They are emitted as `latency` events, printed as `[latency]` log lines, and stored in Supabase when configured.
+- Stages overlap: the LLM can start on Flux's early end-of-turn signal, so stage values need not sum to the total.
+- The total is measured at the agent. Network time between the caller and the agent's region is not included.
+- The largest remaining variance is Groq's first-token time on the free tier (one turn took 3.7 s).
 
 ---
 
@@ -258,11 +271,11 @@ Early observations:
 
 Planned for Phase 6:
 
-| Component    | Host                       | Notes                                                     |
-| ------------ | -------------------------- | --------------------------------------------------------- |
-| Web app      | Vercel                     | Static build of `apps/web`                                |
-| Token server | Vercel serverless function | Same `/api/token` contract, plus passcode and rate limits |
-| Agent worker | LiveKit Cloud (Build plan) | Deployed with the LiveKit CLI                             |
-| Database     | Supabase (free tier)       | Call logs, turn timings, eval results                     |
+| Component    | Host                                  | Notes                                                     |
+| ------------ | ------------------------------------- | --------------------------------------------------------- |
+| Web app      | Vercel                                | Static build of `apps/web`                                |
+| Token server | Vercel serverless function            | Same `/api/token` contract, plus passcode and rate limits |
+| Agent worker | LiveKit Cloud (Build plan), `us-east` | Deployed with the LiveKit CLI since Phase 2               |
+| Database     | Supabase (free tier)                  | Call logs, turn timings, eval results                     |
 
 Locally, all three apps run on the developer's machine and connect to the same managed services.
