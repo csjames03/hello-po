@@ -3,6 +3,7 @@
 import { appendFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { config } from './config.ts';
+import type { InterruptRecord } from './interruptions.ts';
 import type { TurnLatency } from './latency.ts';
 
 const dir = fileURLToPath(new URL('../../../logs/', import.meta.url));
@@ -24,6 +25,21 @@ export async function appendLocalTurn(turn: TurnLatency, roomName: string): Prom
       interrupted: turn.interrupted,
     };
     await appendFile(`${dir}turns.jsonl`, JSON.stringify(record) + '\n');
+  } catch (err) {
+    console.warn('[turn-log] write failed:', err);
+  }
+}
+
+export async function appendLocalInterrupt(r: InterruptRecord, roomName: string): Promise<void> {
+  try {
+    await mkdir(dir, { recursive: true });
+    const record = {
+      ts: new Date().toISOString(),
+      room: roomName,
+      stop_ms: r.stopMs,
+      resumed: r.resumed,
+    };
+    await appendFile(`${dir}interrupts.jsonl`, JSON.stringify(record) + '\n');
   } catch (err) {
     console.warn('[turn-log] write failed:', err);
   }

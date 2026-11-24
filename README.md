@@ -6,11 +6,11 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 
 > "Hello po" is a polite Filipino greeting, the kind you would hear when calling a front desk in the Philippines.
 
-|            |                                                                                                                                                                             |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Status** | Phase 2 (latency) complete: **p50 450 ms / p95 945 ms** voice to voice over 22 turns. See [measured performance](#measured-performance) and the [roadmap](docs/roadmap.md). |
-| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost                                                                                              |
-| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                                                                                                   |
+|            |                                                                                                                                                                                                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Status** | Phase 3 (turn-taking) complete: interruptions stop in **199 ms p50, 201 ms max** (11 / 11 under 300 ms). Replies: **p50 411 ms / p95 968 ms**. See [measured performance](#measured-performance) and the [roadmap](docs/roadmap.md). |
+| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost                                                                                                                                                       |
+| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                                                                                                                                                            |
 
 ---
 
@@ -39,7 +39,7 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 
 ## Features
 
-### Available now (Phase 1 — MVP)
+### Available now (Phases 1–3)
 
 - **Browser voice calls.** One click joins a private LiveKit room over WebRTC; no app install, no phone line.
 - **Full speech pipeline.** Deepgram streaming speech-to-text, a Groq-hosted LLM, and Deepgram Aura-2 text-to-speech.
@@ -47,11 +47,14 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 - **Live transcript.** Both sides of the conversation appear on screen as they are spoken.
 - **Call state.** The UI shows whether the agent is connecting, listening, thinking, or speaking.
 - **Grounded persona.** The agent only states the resort facts it was given and offers a staff follow-up for anything else.
+- **Interrupt any time.** Talk over Mara and she goes quiet in about 200 ms. A cough or noise only pauses her for a moment before she carries on.
+- **Per-turn latency.** A live table shows each stage of every reply (end of turn, LLM first token, TTS first audio), plus every interruption's stop time.
+- **Call logging.** Calls, turns, and interruptions are saved to Supabase for reporting.
 - **Swappable providers.** Each vendor (STT, LLM, TTS, VAD) is created in a single factory file, so replacing one is a one-file change.
 
 ### Planned
 
-Per-turn latency waterfall, barge-in (interrupting the agent), knowledge-base retrieval, booking and availability tools, support tickets, human handoff, sentiment tracking, a metrics dashboard, an automated eval suite, and a passcode-protected public demo. See the [roadmap](docs/roadmap.md).
+Latency waterfall chart, knowledge-base retrieval, booking and availability tools, support tickets, human handoff, sentiment tracking, a metrics dashboard, an automated eval suite, and a passcode-protected public demo. See the [roadmap](docs/roadmap.md).
 
 ---
 
@@ -82,6 +85,21 @@ npm run latency:report -- --lines docs/results/phase-2-cloud-latency.log
 ```
 
 > The total is measured on the agent. Audio travelling between the caller and the agent's region adds network time on top, which is not yet measured end to end.
+
+### Interruptions
+
+Stop time is the time from the caller talking over the agent to the agent's audio pausing, measured on the agent. The Phase 3 acceptance run used three calls against the deployed agent.
+
+| Configuration                                           | Interruptions | p50        | Max        | Under 300 ms |
+| ------------------------------------------------------- | ------------- | ---------- | ---------- | ------------ |
+| Wait for one transcribed word (`minWords: 1`)           | 9             | 947 ms     | 2,623 ms   | 0 / 9        |
+| **Local VAD decides (`mode: 'vad'`, 200 ms of speech)** | **11**        | **199 ms** | **201 ms** | **11 / 11**  |
+
+The same calls measured voice-to-voice p50 411 ms and p95 968 ms over 21 turns. Full write-up and raw data: [`docs/results/phase-3-interruptions.md`](docs/results/phase-3-interruptions.md). Reproduce with:
+
+```bash
+npm run latency:report -- --since 2026-11-23T19:40 --last 100
+```
 
 ---
 
@@ -178,7 +196,7 @@ hello-po/
 ├── scripts/
 │   └── latency-report.ts     # p50 / p95 latency summary
 ├── supabase/
-│   └── migrations/           # SQL schema for calls and turns
+│   └── migrations/           # SQL schema: calls, turns, interruptions
 ├── Dockerfile                # Agent image for LiveKit Cloud
 ├── livekit.toml              # LiveKit Cloud agent id (created by the CLI)
 ├── .env.example              # Every environment variable, documented
@@ -209,7 +227,7 @@ All providers have free tiers. **Do not add a credit card** to any of them: with
 | **LiveKit Cloud** | [cloud.livekit.io](https://cloud.livekit.io)         | Create a project, then open **Manage API keys** on the project overview. Copy the WebSocket URL (`wss://…livekit.cloud`), the API key (`API…`), and the API secret (a ~44 character string, **not** a generated `eyJ…` token). |
 | **Deepgram**      | [console.deepgram.com](https://console.deepgram.com) | **API Keys → Create key.** One key covers both speech-to-text and text-to-speech.                                                                                                                                              |
 | **Groq**          | [console.groq.com](https://console.groq.com)         | **API Keys → Create key** (starts with `gsk_`).                                                                                                                                                                                |
-| **Supabase**      | [supabase.com](https://supabase.com)                 | New project, then **Project Settings → API Keys**. Copy the Project URL and a **secret key** (`sb_secret_…`). Not used until Phase 2.                                                                                          |
+| **Supabase**      | [supabase.com](https://supabase.com)                 | New project, then **Project Settings → API Keys**. Copy the Project URL and a **secret key** (`sb_secret_…`). Then run each file in `supabase/migrations/` in order in the **SQL editor**.                                     |
 
 ### 2. Install
 
@@ -273,16 +291,16 @@ INFO: registered worker
 
 Run from the repo root.
 
-| Command                  | Description                                                                |
-| ------------------------ | -------------------------------------------------------------------------- |
-| `npm run dev:agent`      | Start the agent worker in development mode                                 |
-| `npm run dev:token`      | Start the token server with file watching                                  |
-| `npm run dev:web`        | Start the Vite dev server                                                  |
-| `npm run typecheck`      | Type-check every workspace                                                 |
-| `npm run lint`           | Lint the whole repo with ESLint                                            |
-| `npm run format`         | Format the whole repo with Prettier                                        |
-| `npm run format:check`   | Check formatting without writing                                           |
-| `npm run latency:report` | Print p50 / p95 latency per stage (`--local`, `--lines FILE`, or Supabase) |
+| Command                  | Description                                                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev:agent`      | Start the agent worker in development mode                                                                             |
+| `npm run dev:token`      | Start the token server with file watching                                                                              |
+| `npm run dev:web`        | Start the Vite dev server                                                                                              |
+| `npm run typecheck`      | Type-check every workspace                                                                                             |
+| `npm run lint`           | Lint the whole repo with ESLint                                                                                        |
+| `npm run format`         | Format the whole repo with Prettier                                                                                    |
+| `npm run format:check`   | Check formatting without writing                                                                                       |
+| `npm run latency:report` | Print p50 / p95 latency per stage and interruption stop times (`--since TIME`, `--local`, `--lines FILE`, or Supabase) |
 
 TypeScript runs directly on Node 24 through native type stripping, so the agent and token server have no build step in development.
 
@@ -335,7 +353,9 @@ All variables live in `.env` at the repo root. See [`.env.example`](.env.example
 
 **Deepgram Flux for end-of-turn detection.** Flux decides when the caller has finished from both meaning and silence, and sends an early "probably done" signal that lets the LLM start before the turn is confirmed. With Flux the agent adds no extra wait after the end-of-turn signal. It beat Nova-3 with silence-based endpointing in side-by-side calls, and avoids loading the LiveKit turn-detector model, which holds about 450 MB of weights in memory.
 
-**Turn-taking tuned against noise.** With SDK defaults, background noise was treated as the caller interrupting, which paused replies for one to two seconds. Interruptions now require at least one transcribed word, false interruptions resume after one second, and the VAD threshold is raised.
+**Barge-in decided by the local VAD.** Requiring one transcribed word before stopping (`minWords: 1`) made the agent wait on a speech-to-text round trip, and stops took 0.5 to 2.6 seconds. The agent now pauses after 200 ms of speech detected by the local Silero VAD (raised threshold, so breathing and room noise don't count). If no words follow, it resumes after one second. LiveKit's cloud "adaptive" interruption model was skipped because it adds another network hop before the agent can stop.
+
+**Stricter end-of-turn.** Flux's end-of-turn threshold is 0.8 instead of 0.7, because short pauses ("Wait. … describe the restaurant") ended the caller's turn and the agent started replying over them.
 
 **Agent hosted next to its providers.** Deepgram serves from the US, about 250 ms round trip from the Philippines. Running the agent on LiveKit Cloud in `us-east` cut those round trips to a few milliseconds and brought the p50 from 1,362 ms to 450 ms, even though caller audio now travels further.
 
@@ -403,7 +423,7 @@ Browsers only allow audio playback after a user gesture. Clicking **Call support
 <details>
 <summary><strong>The agent hears itself, or cuts itself off</strong></summary>
 
-Use headphones. Without them, the agent's voice can reach your microphone. Echo handling and interruption tuning are part of Phase 3.
+Use headphones. Without them, the agent's voice can reach your microphone, and because barge-in reacts to 200 ms of speech, the agent can pause on its own echo. LiveKit's browser echo cancellation helps but is not perfect on laptop speakers.
 
 </details>
 
@@ -425,8 +445,8 @@ Use headphones. Without them, the agent's voice can reach your microphone. Echo 
 | ----- | ------------------------------------------------------------------------------ | ------- |
 | 1     | **MVP:** working browser voice call with a live transcript                     | Done    |
 | 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Done    |
-| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Next    |
-| 4     | **Brain:** knowledge base, tools, handoff rules, sentiment                     | Planned |
+| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Done    |
+| 4     | **Brain:** knowledge base, tools, handoff rules, sentiment                     | Next    |
 | 5     | **UI and evals:** latency waterfall, sentiment panel, metrics page, eval suite | Planned |
 | 6     | **Ship:** deploy, cost guardrails, case study                                  | Planned |
 

@@ -62,4 +62,13 @@ export async function insertTurn(row: TurnRow): Promise<void> {
   await request('POST', 'turns', row);
 }
 
+export async function insertInterruption(row: {
+  call_id: string;
+  turn_id: string;
+  stop_ms: number;
+  resumed: boolean;
+}): Promise<void> {
+  await request('POST', 'interruptions', row);
+}
+
 export const dbEnabled = enabled;

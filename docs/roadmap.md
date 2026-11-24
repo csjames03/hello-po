@@ -6,8 +6,8 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 | -------------------------------------------- | ------------------------------- | ------- |
 | [1](#phase-1--mvp)                           | MVP: working voice call         | Done    |
 | [2](#phase-2--latency)                       | Latency                         | Done    |
-| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking   | Next    |
-| [4](#phase-4--brain)                         | Knowledge, tools, and sentiment | Planned |
+| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking   | Done    |
+| [4](#phase-4--brain)                         | Knowledge, tools, and sentiment | Next    |
 | [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals    | Planned |
 | [6](#phase-6--ship)                          | Deployment and guardrails       | Planned |
 
@@ -64,13 +64,17 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 
 **Goal:** natural conversation, where the caller can cut in and the agent doesn't talk over them.
 
-- [ ] Tune VAD and turn detection for filler words ("um"), short pauses, and background noise
-- [ ] Evaluate the LiveKit turn-detector model against STT endpointing, weighing accuracy, latency, and memory
-- [ ] Barge-in cancels in-flight LLM generation and TTS playback
-- [ ] Emit `interrupt` events with the measured stop time
-- [ ] The agent waits for the caller to finish instead of talking over them
+- [x] Measured the baseline: waiting for one transcribed word (`minWords: 1`) stopped in 481–2,623 ms, 0 of 9 under 300 ms
+- [x] Barge-in decided by the local VAD (`mode: 'vad'`, `minWords: 0`, `minDuration: 200`); false interruptions resume after 1 s
+- [x] Barge-in pauses TTS playback at once and cancels the reply when the caller's words arrive
+- [x] Emit `interrupt` events with the measured stop time: browser panel, `[interrupt]` console lines, `logs/interrupts.jsonl`, and the Supabase `interruptions` table (migration `0003`)
+- [x] Stop time measured from the audio output itself, with the VAD's 100 ms detection delay counted
+- [x] Fewer premature replies: Flux end-of-turn threshold raised from 0.7 to 0.8
+- [x] `npm run latency:report -- --since <time>` scores only runs after a configuration change
+- [ ] A lone "Wait." can still end the turn early; the reply is cut off before it is heard (carried over)
+- [ ] Evaluate the LiveKit turn-detector model against Flux end-of-turn (carried over; Flux already meets the latency target without its ~450 MB of weights)
 
-**Acceptance:** the agent stops speaking in < 300 ms across 10 interruption tests.
+**Acceptance:** the agent stops speaking in < 300 ms across 10 interruption tests. ✅ **11 / 11 under 300 ms, p50 199 ms, max 201 ms** ([results](results/phase-3-interruptions.md)).
 
 ---
 

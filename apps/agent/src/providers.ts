@@ -16,8 +16,10 @@ export function createStt() {
       keyterms,
       // "Probably done" signal; the SDK starts the LLM early on it (preemptive generation).
       eagerEotThreshold: 0.5,
-      // Confidence needed for the final end of turn (Deepgram default 0.7).
-      eotThreshold: 0.7,
+      // Confidence needed for the final end of turn (Deepgram default 0.7). At 0.7 a short
+      // pause ("Wait. ... describe the restaurant") ended the turn and the agent talked over
+      // the caller.
+      eotThreshold: 0.8,
     });
   }
   return new deepgram.STT({
@@ -51,12 +53,14 @@ export function createTts() {
   return new deepgram.TTS({ apiKey: config.deepgramApiKey, model: config.ttsVoice });
 }
 
+/** Speech the VAD must hear before it reports the caller as speaking. Ignores clicks and pops. */
+export const vadMinSpeechMs = 100;
+
 export function loadVad() {
   return silero.VAD.load({
     // Default 0.5 treated background noise and breathing as speech, causing false interruptions.
     activationThreshold: 0.6,
-    // Ignore clicks and pops shorter than this (default 50 ms).
-    minSpeechDuration: 100,
+    minSpeechDuration: vadMinSpeechMs,
   });
 }
 

@@ -11,12 +11,13 @@ import {
 import { ParticipantKind } from '@livekit/rtc-node';
 import { fileURLToPath } from 'node:url';
 import { config } from './config.ts';
-import { createCall, dbEnabled, endCall, insertTurn } from './db.ts';
+import { createCall, dbEnabled, endCall, insertInterruption, insertTurn } from './db.ts';
 import { publishEvent } from './events.ts';
+import { formatInterrupt, onInterrupt } from './interruptions.ts';
 import { formatTurn, onTurnLatency } from './latency.ts';
 import { greeting, instructions } from './prompt.ts';
 import { createLlm, createStt, createTts, endpointingMinDelayMs, loadVad } from './providers.ts';
-import { appendLocalTurn } from './turn-log.ts';
+import { appendLocalInterrupt, appendLocalTurn } from './turn-log.ts';
 
 export default defineAgent({
   // Runs once per worker process, so the VAD model loads before calls arrive.
@@ -55,9 +56,15 @@ export default defineAgent({
         // alone used most of the 800 ms budget.
         endpointing: { minDelay: endpointingMinDelayMs },
         interruption: {
-          // Only a real word interrupts the agent. Noise alone paused replies for 1-2 s.
-          minWords: 1,
-          // If an interruption turns out to be false, resume after 1 s (default 2 s).
+          // Barge-in is decided by the local VAD, so the agent pauses without waiting for a
+          // transcript from Deepgram (a US round trip). Waiting for one word (minWords: 1)
+          // measured 480-2600 ms. LiveKit's cloud "adaptive" model is skipped for the same
+          // reason: it is another network hop before the agent can stop.
+          mode: 'vad',
+          minWords: 0,
+          // Pause after this much caller speech (default 500 ms, which misses the 300 ms target).
+          minDuration: 200,
+          // A pause with no words (cough, noise) resumes the reply after 1 s (default 2 s).
           falseInterruptionTimeout: 1000,
         },
       },
@@ -104,6 +111,24 @@ export default defineAgent({
     ctx.addShutdownCallback(markEnded);
 
     await session.start({ agent: new voice.Agent({ instructions }), room: ctx.room });
+
+    // Log how fast the agent goes silent when the caller talks over it. This watches the audio
+    // output, which exists only after start().
+    onInterrupt(session, async (record) => {
+      console.log(formatInterrupt(record));
+      void appendLocalInterrupt(record, roomName);
+      const { resumed, ...event } = record;
+      if (!resumed) void publishEvent(ctx.room, event);
+
+      const callId = await callIdPromise;
+      if (!callId) return;
+      void insertInterruption({
+        call_id: callId,
+        turn_id: record.turnId,
+        stop_ms: record.stopMs,
+        resumed,
+      });
+    });
 
     console.log(
       `[call] ${roomName} | stt=${config.sttModel} llm=${config.llmModel} ` +

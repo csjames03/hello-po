@@ -175,13 +175,35 @@ flowchart LR
 
 Every stage streams, so later stages start before earlier ones finish:
 
-- **STT** sends interim transcripts while the caller is still speaking. Deepgram's endpointing (`25 ms`) marks the transcript final when speech stops.
-- **Turn detection** in Phase 1 is STT-based (`turnDetection: 'stt'`). Silero VAD tracks speech activity for interruptions.
+- **STT** sends interim transcripts while the caller is still speaking.
+- **Turn detection** is STT-based (`turnDetection: 'stt'`). Flux ends the turn when its end-of-turn confidence reaches 0.8, and sends an earlier "probably done" signal at 0.5.
 - **Preemptive generation** is enabled by the SDK: the LLM request can start on a near-final transcript, before the turn is formally committed.
 - **LLM** output streams token by token. Qwen3 runs with `reasoning_effort: "none"` so it answers immediately instead of thinking first.
 - **TTS** starts synthesizing as soon as the first full sentence arrives from the LLM, rather than waiting for the whole reply.
 
-Turn-taking and interruption handling are tuned in Phase 3.
+### Interruptions (barge-in)
+
+```mermaid
+sequenceDiagram
+    participant C as Caller
+    participant V as Silero VAD (agent)
+    participant A as Agent audio
+    participant S as Deepgram Flux
+    A->>C: speaking
+    C->>V: starts talking
+    Note over V: 200 ms of speech
+    V->>A: pause() (~200 ms after overlap)
+    C->>S: words
+    alt words arrive
+        S->>A: reply cancelled, caller's turn answered
+    else no words within 1 s (cough, noise)
+        V->>A: resume()
+    end
+```
+
+- Barge-in is decided by the local VAD (`interruption.mode: 'vad'`, `minWords: 0`, `minDuration: 200`), not by the transcript. Waiting for a transcribed word took 0.5–2.6 s because of the speech-to-text round trip.
+- Interruptions are disabled for the first 3 s of a call while echo cancellation warms up.
+- `apps/agent/src/interruptions.ts` measures each stop from the audio output's `pause()` / `clearBuffer()` calls and publishes an `interrupt` event. Results: [`results/phase-3-interruptions.md`](results/phase-3-interruptions.md).
 
 ---
 
@@ -210,7 +232,7 @@ export function loadVad() {
 
 ## Data channel events
 
-Beyond LiveKit's built-in transcripts, the agent will publish structured events on the topic `hello-po.events`. The types live in `packages/shared/src/index.ts`. Each event has a `type` discriminator.
+Beyond LiveKit's built-in transcripts, the agent publishes structured events (`latency` and `interrupt` so far) on the topic `hello-po.events`. The types live in `packages/shared/src/index.ts`. Each event has a `type` discriminator.
 
 | Event        | Fields                                                                      | Purpose                                            | Phase |
 | ------------ | --------------------------------------------------------------------------- | -------------------------------------------------- | ----- |

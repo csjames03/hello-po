@@ -5,6 +5,7 @@
 //   npm run latency:report -- --last 50
 //   npm run latency:report -- --stt flux-general-en
 //   npm run latency:report -- --llm openai/gpt-oss-20b
+//   npm run latency:report -- --since 2026-11-23T19:40   # only rows after a time (UTC)
 //   npm run latency:report -- --local      # read logs/turns.jsonl instead of Supabase
 //   npm run latency:report -- --lines docs/results/phase-2-cloud-latency.log
 //                                          # parse "[latency]" lines from agent logs
@@ -20,6 +21,7 @@ const { values } = parseArgs({
     llm: { type: 'string' },
     local: { type: 'boolean', default: false },
     lines: { type: 'string' },
+    since: { type: 'string' },
   },
 });
 
@@ -93,6 +95,7 @@ async function loadSupabase(): Promise<Turn[]> {
     order: 'created_at.desc',
     limit: String(limit),
   });
+  if (values.since) params.set('created_at', `gte.${values.since}`);
   if (values.stt) params.set('calls.stt_model', `eq.${values.stt}`);
   if (values.llm) params.set('calls.llm_model', `eq.${values.llm}`);
 
@@ -109,6 +112,7 @@ async function loadSupabase(): Promise<Turn[]> {
 
 if (turns.length === 0) {
   console.log('No turns found. Make a call first.');
+  await printInterruptions();
   process.exit(0);
 }
 
@@ -161,3 +165,73 @@ console.log(
   '\nNote: stages can overlap (preemptive generation), so they need not sum to the total.\n' +
     'Total is measured on the agent; browser playout and network add a little more.\n',
 );
+
+await printInterruptions();
+
+// ---------- Interruptions (barge-in stop time) ----------
+
+interface Interruption {
+  stop_ms: number;
+  resumed: boolean;
+}
+
+async function loadInterruptions(): Promise<Interruption[]> {
+  if (values.lines) {
+    // "[interrupt] stop  180ms" or "[interrupt] paused 240ms then resumed (false interruption)"
+    const re = /\[interrupt\] (stop|paused)\s+(\d+)ms/;
+    return readFileSync(values.lines, 'utf8')
+      .split('\n')
+      .map((line) => re.exec(line))
+      .filter((m): m is RegExpExecArray => m !== null)
+      .map((m) => ({ stop_ms: Number(m[2]), resumed: m[1] === 'paused' }))
+      .slice(-limit);
+  }
+  if (values.local) {
+    const file = new URL('../logs/interrupts.jsonl', import.meta.url);
+    if (!existsSync(file)) return [];
+    return readFileSync(file, 'utf8')
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line) as Interruption)
+      .slice(-limit);
+  }
+  const url = process.env.SUPABASE_URL?.replace(/\/+$/, '');
+  const key = process.env.SUPABASE_SECRET_KEY;
+  if (!url || !key) return [];
+  const headers: Record<string, string> = { apikey: key };
+  if (!key.startsWith('sb_secret_')) headers.Authorization = `Bearer ${key}`;
+  const params = new URLSearchParams({
+    select: 'stop_ms,resumed',
+    order: 'created_at.desc',
+    limit: String(limit),
+  });
+  if (values.since) params.set('created_at', `gte.${values.since}`);
+  const res = await fetch(`${url}/rest/v1/interruptions?${params}`, { headers });
+  // The table arrives with migration 0003; treat a missing table as "no data".
+  if (!res.ok) return [];
+  return ((await res.json()) as Interruption[]).reverse();
+}
+
+async function printInterruptions() {
+  const all = await loadInterruptions();
+  const real = all.filter((i) => !i.resumed).map((i) => i.stop_ms);
+  const falseCount = all.length - real.length;
+
+  console.log(
+    `Interruptions: ${real.length} real, ${falseCount} false (agent paused, then resumed)`,
+  );
+  if (real.length === 0) {
+    console.log('No interruptions recorded yet.\n');
+    return;
+  }
+  const max = Math.max(...real);
+  const under = real.filter((ms) => ms < 300).length;
+  console.log(
+    `Stop time: p50 ${pct(real, 50)} ms | p95 ${pct(real, 95)} ms | max ${max} ms | ` +
+      `${under}/${real.length} under 300 ms`,
+  );
+  console.log('Phase 3 target (every stop < 300 ms):', max < 300 ? 'PASS' : 'FAIL');
+  console.log(
+    'Stop time = caller starts speaking over the agent -> agent audio paused, measured on the agent.\n',
+  );
+}
