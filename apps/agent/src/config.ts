@@ -18,6 +18,12 @@ export const config = {
   groqApiKey: required('GROQ_API_KEY'),
   // Groq retired its Llama chat models; Qwen3 with thinking off was the fastest steady option.
   llmModel: process.env.LLM_MODEL ?? 'qwen/qwen3.8-27b',
+  // Tried in order when the main model fails or is rate-limited. On Groq's free tier each model
+  // has its own daily token budget (200k), so fallbacks also multiply the daily capacity.
+  llmFallbackModels: (process.env.LLM_FALLBACK_MODELS ?? 'openai/gpt-oss-20b,openai/gpt-oss-120b')
+    .split(',')
+    .map((m) => m.trim())
+    .filter(Boolean),
   // Flux measured faster than Nova-3 (p50 1362 ms vs ~1500 ms) with no cut-offs.
   sttModel: process.env.STT_MODEL ?? 'flux-general-en',
   ttsVoice: process.env.TTS_VOICE ?? 'aura-2-asteria-en',

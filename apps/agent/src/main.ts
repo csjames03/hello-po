@@ -17,11 +17,16 @@ import {
   dbEnabled,
   endCall,
   insertInterruption,
+  insertRow,
   insertTurn,
   keepSupabaseWarm,
 } from './db.ts';
 import { publishEvent } from './events.ts';
 import { formatInterrupt, onInterrupt } from './interruptions.ts';
+import { MaraAgent } from './knowledge.ts';
+import { MoodTracker, onCallerSentiment } from './sentiment.ts';
+import { createTicketTools } from './tickets.ts';
+import type { Publish } from './tool-runner.ts';
 import { formatTurn, onTurnLatency } from './latency.ts';
 import { buildInstructions, greeting } from './prompt.ts';
 import { createLlm, createStt, createTts, endpointingMinDelayMs, loadVad } from './providers.ts';
@@ -52,6 +57,8 @@ export default defineAgent({
     }
 
     const session = new voice.AgentSession({
+      // Groq rate limits (429) ask for a wait of several seconds; retry instead of going silent.
+      connOptions: { llmConnOptions: { maxRetry: 4, retryIntervalMs: 4000 } },
       vad: ctx.proc.userData.vad as Awaited<ReturnType<typeof loadVad>>,
       stt: createStt(),
       llm: createLlm(),
@@ -123,11 +130,38 @@ export default defineAgent({
     });
     ctx.addShutdownCallback(markEnded);
 
-    const agent = new voice.Agent({
+    const publish: Publish = (event) => publishEvent(ctx.room, event);
+    const mood = new MoodTracker();
+    const agent = new MaraAgent({
       instructions: buildInstructions(resortToday()),
-      tools: createBookingTools(ctx.room),
+      tools: {
+        ...createBookingTools(publish),
+        ...createTicketTools(publish, {
+          callId: callIdPromise,
+          callRoom: roomName,
+          source: 'call',
+        }),
+      },
+      moodNote: () => mood.note(),
     });
     await session.start({ agent, room: ctx.room });
+
+    // Score the caller's mood after each message, off the reply path.
+    onCallerSentiment(session, async (event, text) => {
+      mood.add(event.score);
+      console.log(`[sentiment] ${event.score.toFixed(2)} ${event.label}`);
+      void publish(event);
+      const callId = await callIdPromise;
+      if (callId) {
+        void insertRow('turn_sentiments', {
+          call_id: callId,
+          message_id: event.turnId,
+          text,
+          score: event.score,
+          label: event.label,
+        });
+      }
+    });
 
     // The booking form reports back (held, paid, expired), so Mara can tell the caller.
     ctx.room.on(RoomEvent.DataReceived, (payload, _participant, _kind, topic) => {

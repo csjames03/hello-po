@@ -351,6 +351,7 @@ Run from the repo root.
 | `npm run format`         | Format the whole repo with Prettier                                                                                    |
 | `npm run format:check`   | Check formatting without writing                                                                                       |
 | `npm run latency:report` | Print p50 / p95 latency per stage and interruption stop times (`--since TIME`, `--local`, `--lines FILE`, or Supabase) |
+| `npm run eval`           | Run the 20 scripted conversations through the agent and score them (`--only id1,id2`)                                  |
 | `npm run seed:bookings`  | Generate demo bookings for this month and the next two and load them into Supabase (`--json-only`, `--seed N`)         |
 
 TypeScript runs directly on Node 24 through native type stripping, so the agent and token server have no build step in development.
@@ -388,12 +389,15 @@ All variables live in `.env` at the repo root. See [`.env.example`](.env.example
 
 ### Optional overrides
 
-| Variable            | Default             | Description                                                     |
-| ------------------- | ------------------- | --------------------------------------------------------------- |
-| `LLM_MODEL`         | `qwen/qwen3.8-27b`  | Any Groq chat model id                                          |
-| `STT_MODEL`         | `flux-general-en`   | Deepgram speech-to-text model (`flux-general-en` or `nova-3`)   |
-| `TTS_VOICE`         | `aura-2-asteria-en` | Deepgram Aura voice                                             |
-| `TOKEN_SERVER_PORT` | `3001`              | Token server port (update `apps/web/vite.config.ts` if changed) |
+| Variable              | Default                                  | Description                                                     |
+| --------------------- | ---------------------------------------- | --------------------------------------------------------------- |
+| `LLM_MODEL`           | `qwen/qwen3.8-27b`                       | Any Groq chat model id                                          |
+| `LLM_FALLBACK_MODELS` | `openai/gpt-oss-20b,openai/gpt-oss-120b` | Tried in order when the main model fails or is rate-limited     |
+| `SENTIMENT_MODEL`     | `openai/gpt-oss-20b`                     | Groq model that scores caller sentiment                         |
+| `JUDGE_MODEL`         | `openai/gpt-oss-120b`                    | Groq model that grades eval conversations                       |
+| `STT_MODEL`           | `flux-general-en`                        | Deepgram speech-to-text model (`flux-general-en` or `nova-3`)   |
+| `TTS_VOICE`           | `aura-2-asteria-en`                      | Deepgram Aura voice                                             |
+| `TOKEN_SERVER_PORT`   | `3001`                                   | Token server port (update `apps/web/vite.config.ts` if changed) |
 
 ---
 
@@ -499,15 +503,15 @@ Use headphones. Without them, the agent's voice can reach your microphone, and b
 
 ## Roadmap
 
-| Phase | Focus                                                                          | Status  |
-| ----- | ------------------------------------------------------------------------------ | ------- |
-| 1     | **MVP:** working browser voice call with a live transcript                     | Done    |
-| 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Done    |
-| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Done    |
-| 4a    | **Booking:** availability, chat booking form, 10-minute hold, Stripe, email    | Done    |
-| 4b    | **Brain:** knowledge base, tickets, handoff rules, sentiment                   | Next    |
-| 5     | **UI and evals:** latency waterfall, sentiment panel, metrics page, eval suite | Planned |
-| 6     | **Ship:** deploy, cost guardrails, case study                                  | Planned |
+| Phase | Focus                                                                          | Status      |
+| ----- | ------------------------------------------------------------------------------ | ----------- |
+| 1     | **MVP:** working browser voice call with a live transcript                     | Done        |
+| 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Done        |
+| 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Done        |
+| 4a    | **Booking:** availability, chat booking form, 10-minute hold, Stripe, email    | Done        |
+| 4b    | **Brain:** knowledge base, tickets, handoff rules, sentiment                   | In progress |
+| 5     | **UI and evals:** latency waterfall, sentiment panel, metrics page, eval suite | Planned     |
+| 6     | **Ship:** deploy, cost guardrails, case study                                  | Planned     |
 
 Details and acceptance criteria for each phase are in [docs/roadmap.md](docs/roadmap.md).
 

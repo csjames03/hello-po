@@ -2,15 +2,15 @@
 
 Hello Po is built in phases. Each phase ends with something that can be demonstrated, and has explicit acceptance criteria.
 
-| Phase                                        | Focus                         | Status  |
-| -------------------------------------------- | ----------------------------- | ------- |
-| [1](#phase-1--mvp)                           | MVP: working voice call       | Done    |
-| [2](#phase-2--latency)                       | Latency                       | Done    |
-| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking | Done    |
-| [4a](#phase-4a--booking)                     | Voice booking and payments    | Done    |
-| [4b](#phase-4b--brain)                       | Knowledge, tickets, sentiment | Next    |
-| [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals  | Planned |
-| [6](#phase-6--ship)                          | Deployment and guardrails     | Planned |
+| Phase                                        | Focus                         | Status      |
+| -------------------------------------------- | ----------------------------- | ----------- |
+| [1](#phase-1--mvp)                           | MVP: working voice call       | Done        |
+| [2](#phase-2--latency)                       | Latency                       | Done        |
+| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking | Done        |
+| [4a](#phase-4a--booking)                     | Voice booking and payments    | Done        |
+| [4b](#phase-4b--brain)                       | Knowledge, tickets, sentiment | In progress |
+| [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals  | Planned     |
+| [6](#phase-6--ship)                          | Deployment and guardrails     | Planned     |
 
 ---
 
@@ -101,17 +101,20 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 
 **Goal:** answers grounded in real resort information, with actions the agent can take.
 
-- [ ] Markdown knowledge base: hours, check-in and check-out, amenities, cancellation and refund policy
-- [ ] Simple retrieval over the knowledge base (keyword or embedding search)
-- [ ] Tools:
-  - [x] `checkAvailability` and `lookupBooking` (built in Phase 4a)
-  - [ ] `createTicket`: create a support ticket with a call summary (Supabase)
-- [ ] Human handoff when the caller is angry, asks for a person, or is out of scope: create a ticket and say so politely
-- [ ] Guardrails: never invent policies, prices, or bookings; confirm details before acting
-- [ ] Sentiment score per caller turn, computed off the main reply path so it adds no latency
-- [ ] Emit `tool`, `sentiment`, and `handoff` events
+- [x] Markdown knowledge base (`packages/kb`): 35 sections covering the stay, rooms, dining, facilities, activities, transport and policies
+- [x] BM25 keyword retrieval with spoken-language synonyms; the top passages are added inside `llmNode`, so preemptive generation is kept
+- [x] Tools:
+  - [x] `checkAvailability` and `lookupBooking` (built in Phase 4a); dates without a year resolve to the next one
+  - [x] `createTicket` (migration `0005`): handoff, complaint, request, question and booking categories
+- [x] Human handoff: asks for a callback contact, reads it back before saving, updates the same ticket on a correction, emits a `handoff` event
+- [x] Guardrails: answers only from the knowledge base and tool results, four room types only, off-topic and prompt-injection refusals, tickets only with consent
+- [x] Sentiment per caller turn with a separate Groq model, off the reply path; repeated negative turns nudge Mara toward a handoff
+- [x] Emit `tool`, `sentiment`, and `handoff` events
+- [x] LLM fallback (Qwen, then gpt-oss-20b, then gpt-oss-120b) for Groq rate limits, and a guard that cuts off a degenerate reply
+- [x] Eval runner (`npm run eval`): 20 scripted conversations through the real agent, deterministic checks plus an LLM judge
+- [ ] Full 20-scenario run on the main model (pending: Groq's daily token budget was spent during development)
 
-**Acceptance:** ≥ 85% correct outcomes across 20 scripted calls.
+**Acceptance:** ≥ 85% correct outcomes across 20 scripted calls. In progress: 16 of 16 non-ticket scenarios pass across runs, with no grounded-fact failures; the ticket scenarios and one full run are pending.
 
 ---
 

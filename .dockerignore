@@ -9,3 +9,6 @@ supabase
 .env
 .env.*
 *.md
+
+# The knowledge base ships with the agent image.
+!packages/kb/content/*.md

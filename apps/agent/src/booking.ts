@@ -8,36 +8,46 @@ import {
   type BookingUpdateEvent,
 } from '@hello-po/shared';
 import { llm } from '@livekit/agents';
-import type { Room } from '@livekit/rtc-node';
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { rpc, select } from './db.ts';
-import { publishEvent } from './events.ts';
+import { type Publish, runTool } from './tool-runner.ts';
 
 /** Today's date at the resort (Asia/Manila), as YYYY-MM-DD. */
 export const resortToday = () =>
   new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
-const isoDate = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/)
-  .describe('Calendar date as YYYY-MM-DD');
+const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 const stay = {
-  checkIn: isoDate.describe('Arrival date, YYYY-MM-DD'),
-  checkOut: isoDate.describe('Departure date, YYYY-MM-DD (the morning they leave)'),
-  guests: z.number().int().min(1).max(10).describe('Number of guests'),
+  checkIn: isoDate.describe('YYYY-MM-DD'),
+  checkOut: isoDate.describe('YYYY-MM-DD, departure day'),
+  guests: z.number().int().min(1).max(10),
 };
 
 const pesos = (n: number) => `${n.toLocaleString('en-PH')} pesos`;
 const nightsBetween = (a: string, b: string) => (Date.parse(b) - Date.parse(a)) / 86_400_000;
 
+const addYear = (iso: string) => `${Number(iso.slice(0, 4)) + 1}${iso.slice(4)}`;
+
+/**
+ * Callers say "January 20" without a year, and the model sometimes picks the current year even
+ * when that date has passed. A stay that is in the past but becomes valid one year later is
+ * moved to next year, because that is what the caller meant.
+ */
+export function resolveStay(checkIn: string, checkOut: string, today: string) {
+  if (checkIn < today && addYear(checkIn) >= today) {
+    return { checkIn: addYear(checkIn), checkOut: addYear(checkOut) };
+  }
+  return { checkIn, checkOut };
+}
+
 /** Returns an error message the model can say, or null if the stay is valid. */
-function checkStay(checkIn: string, checkOut: string): string | null {
+function checkStay(checkIn: string, checkOut: string, today: string): string | null {
   if (Number.isNaN(Date.parse(checkIn)) || Number.isNaN(Date.parse(checkOut))) {
     return 'Those dates are not valid. Ask the caller to repeat them.';
   }
-  if (checkIn < resortToday()) return 'The arrival date is in the past. Ask for a future date.';
+  if (checkIn < today) return 'The arrival date is in the past. Ask for a future date.';
   const nights = nightsBetween(checkIn, checkOut);
   if (nights < 1) return 'The departure date must be after the arrival date.';
   if (nights > BOOKING_RULES.maxNights) {
@@ -141,29 +151,20 @@ async function findSpokenBooking(code: string, lastName: string) {
 }
 
 /**
- * Runs a tool step with filler speech if it takes a while, and logs how long it took.
- * The prompt also asks Mara to say a few words before calling a tool, so the caller rarely
- * waits in silence; the filler only fires after a stretch of silence.
+ * @param today Returns the resort's date as YYYY-MM-DD; evals pass a fixed date so scenarios
+ *   with relative dates stay stable.
  */
-async function timed<T>(name: string, opts: llm.ToolOptions, fn: () => Promise<T>): Promise<T> {
-  const started = performance.now();
-  try {
-    return await opts.ctx.filler('One moment, let me check that.', { delay: 900 }, fn);
-  } finally {
-    console.log(`[tool] ${name} ${Math.round(performance.now() - started)}ms`);
-  }
-}
-
-export function createBookingTools(room: Room) {
+export function createBookingTools(publish: Publish, today: () => string = resortToday) {
   return {
     checkAvailability: llm.tool({
       description:
-        'Check which room types are free for a stay, with prices. Call this before quoting ' +
-        'availability or prices, and again whenever the dates or number of guests change.',
+        'Free room types and prices for a stay. Call before quoting availability or prices.',
       parameters: z.object(stay),
-      execute: ({ checkIn, checkOut, guests }, opts) =>
-        timed('checkAvailability', opts, async () => {
-          const invalid = checkStay(checkIn, checkOut);
+      execute: (args, opts) =>
+        runTool('checkAvailability', args, opts, publish, async () => {
+          const { checkIn, checkOut } = resolveStay(args.checkIn, args.checkOut, today());
+          const { guests } = args;
+          const invalid = checkStay(checkIn, checkOut, today());
           if (invalid) return invalid;
           const options = await availability(checkIn, checkOut, guests);
           const free = options.filter((o) => o.roomsLeft > 0);
@@ -187,57 +188,59 @@ export function createBookingTools(room: Room) {
 
     showBookingForm: llm.tool({
       description:
-        'Show the booking form on the caller’s screen once they want to book. It is prefilled ' +
-        'with the stay and lets them pick the room, enter their name and email, and choose to ' +
-        'pay in full or a 50% deposit. Only call this after checkAvailability found rooms.',
+        'Show the booking form on screen when the caller wants to book. They pick the room, ' +
+        'enter name and email, and pay there.',
       parameters: z.object({
         ...stay,
-        roomTypeId: z
-          .string()
-          .optional()
-          .describe('Room type id the caller chose, e.g. "garden", "ocean", "family", "villa"'),
-        guestName: z.string().optional().describe('Caller name, if they gave it'),
+        roomTypeId: z.enum(['garden', 'ocean', 'family', 'villa']).optional(),
+        guestName: z.string().optional(),
       }),
-      execute: ({ checkIn, checkOut, guests, roomTypeId, guestName }, opts) =>
-        timed('showBookingForm', opts, async () => {
-          const invalid = checkStay(checkIn, checkOut);
-          if (invalid) return invalid;
-          const options = (await availability(checkIn, checkOut, guests)).filter(
-            (o) => o.roomsLeft > 0,
-          );
-          if (options.length === 0) return 'Those dates just sold out. Offer other dates.';
+      execute: (args, opts) =>
+        runTool(
+          'showBookingForm',
+          { checkIn: args.checkIn, checkOut: args.checkOut, roomTypeId: args.roomTypeId },
+          opts,
+          publish,
+          async () => {
+            const { checkIn, checkOut } = resolveStay(args.checkIn, args.checkOut, today());
+            const { guests, roomTypeId, guestName } = args;
+            const invalid = checkStay(checkIn, checkOut, today());
+            if (invalid) return invalid;
+            const options = (await availability(checkIn, checkOut, guests)).filter(
+              (o) => o.roomsLeft > 0,
+            );
+            if (options.length === 0) return 'Those dates just sold out. Offer other dates.';
 
-          const event: BookingOfferEvent = {
-            type: 'booking_offer',
-            offerId: randomUUID(),
-            checkIn,
-            checkOut,
-            guests,
-            options,
-            selectedRoomTypeId: options.some((o) => o.roomTypeId === roomTypeId)
-              ? roomTypeId
-              : undefined,
-            guestName,
-          };
-          await publishEvent(room, event);
-          return (
-            'The booking form is now on the caller’s screen. Tell them to check the details, ' +
-            'choose full payment or a 50% deposit, and press Confirm. Confirming holds the room ' +
-            `for ${BOOKING_RULES.holdMinutes} minutes while they pay. Do not say it is booked yet.`
-          );
-        }),
+            const event: BookingOfferEvent = {
+              type: 'booking_offer',
+              offerId: randomUUID(),
+              checkIn,
+              checkOut,
+              guests,
+              options,
+              selectedRoomTypeId: options.some((o) => o.roomTypeId === roomTypeId)
+                ? roomTypeId
+                : undefined,
+              guestName,
+            };
+            await publish(event);
+            return (
+              'The booking form is now on the caller’s screen. Tell them to check the details, ' +
+              'choose full payment or a 50% deposit, and press Confirm. Confirming holds the room ' +
+              `for ${BOOKING_RULES.holdMinutes} minutes while they pay. Do not say it is booked yet.`
+            );
+          },
+        ),
     }),
 
     lookupBooking: llm.tool({
-      description:
-        'Look up an existing booking by its booking code and the guest’s last name. Ask for ' +
-        'both before calling. Booking codes look like "IA-93YOK2".',
+      description: 'Look up a booking by code (like IA-93YOK2) and the guest’s last name.',
       parameters: z.object({
-        code: z.string().describe('Booking code as spoken, e.g. "IA-93YOK2"'),
-        lastName: z.string().describe('Guest last name, to verify the booking belongs to them'),
+        code: z.string(),
+        lastName: z.string(),
       }),
       execute: ({ code, lastName }, opts) =>
-        timed('lookupBooking', opts, async () => {
+        runTool('lookupBooking', { code }, opts, publish, async () => {
           const booking = await findSpokenBooking(normaliseCode(code), lastName);
           // Same answer for "no such code" and "wrong name", so codes can't be probed.
           if (!booking) {

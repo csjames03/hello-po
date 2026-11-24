@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hello-po/kb": "*",
     "@hello-po/shared": "*",
     "@livekit/agents": "1.10.1",
     "@livekit/agents-plugin-deepgram": "1.10.1",

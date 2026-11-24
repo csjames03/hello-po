@@ -9,12 +9,13 @@
     "dev:agent": "npm run dev -w @hello-po/agent",
     "dev:token": "npm run dev -w @hello-po/token-server",
     "dev:web": "npm run dev -w @hello-po/web",
-    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p scripts",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p scripts && tsc --noEmit -p evals",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "latency:report": "node scripts/latency-report.ts",
-    "seed:bookings": "node scripts/seed-bookings.ts"
+    "seed:bookings": "node scripts/seed-bookings.ts",
+    "eval": "node evals/run.ts"
   },
   "dependencies": {
     "@livekit/agents": "1.10.1"

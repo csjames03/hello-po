@@ -71,6 +71,25 @@ export async function insertInterruption(row: {
   await request('POST', 'interruptions', row);
 }
 
+/** Inserts one row and returns it, or null if the insert failed (the error is logged). */
+export async function insertRow<T = Record<string, unknown>>(
+  table: string,
+  row: Record<string, unknown>,
+): Promise<T | null> {
+  const rows = await request<T[]>('POST', table, row);
+  return rows?.[0] ?? null;
+}
+
+/** Updates rows matching a PostgREST filter (e.g. "code=eq.TK-ABC12"). Returns false on failure. */
+export async function updateRows(
+  table: string,
+  filter: string,
+  values: Record<string, unknown>,
+): Promise<boolean> {
+  const rows = await request<unknown[]>('PATCH', `${table}?${filter}`, values);
+  return Boolean(rows?.length);
+}
+
 export const dbEnabled = enabled;
 
 /**
