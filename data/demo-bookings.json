@@ -1,0 +1,2618 @@
+{
+  "generatedFor": "2026-11-24",
+  "from": "2026-11-01",
+  "to": "2027-01-31",
+  "seed": "42",
+  "bookings": [
+    {
+      "code": "IA-93YOK2",
+      "room_id": "family-2",
+      "guest_name": "Emma Kim",
+      "guests": 5,
+      "check_in": "2026-11-01",
+      "check_out": "2026-11-02",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-B0X5W8",
+      "room_id": "garden-5",
+      "guest_name": "Sofia Villanueva",
+      "guests": 1,
+      "check_in": "2026-11-01",
+      "check_out": "2026-11-06",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-ACSNS8",
+      "room_id": "ocean-3",
+      "guest_name": "Daniel Aquino",
+      "guests": 1,
+      "check_in": "2026-11-01",
+      "check_out": "2026-11-02",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-1IYX3J",
+      "room_id": "garden-2",
+      "guest_name": "Marco Garcia",
+      "guests": 1,
+      "check_in": "2026-11-02",
+      "check_out": "2026-11-04",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-YM13ZE",
+      "room_id": "garden-3",
+      "guest_name": "Daniel Mendoza",
+      "guests": 2,
+      "check_in": "2026-11-02",
+      "check_out": "2026-11-04",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-WHSOR3",
+      "room_id": "garden-4",
+      "guest_name": "Daniel Santos",
+      "guests": 2,
+      "check_in": "2026-11-02",
+      "check_out": "2026-11-06",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-D52IUK",
+      "room_id": "ocean-1",
+      "guest_name": "Camille Reyes",
+      "guests": 3,
+      "check_in": "2026-11-02",
+      "check_out": "2026-11-07",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-T2JVE4",
+      "room_id": "family-1",
+      "guest_name": "Paolo Muller",
+      "guests": 1,
+      "check_in": "2026-11-03",
+      "check_out": "2026-11-07",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-UAM01H",
+      "room_id": "garden-6",
+      "guest_name": "Lucas Dubois",
+      "guests": 1,
+      "check_in": "2026-11-03",
+      "check_out": "2026-11-04",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-6ZHRLL",
+      "room_id": "villa-2",
+      "guest_name": "Chloe Muller",
+      "guests": 2,
+      "check_in": "2026-11-03",
+      "check_out": "2026-11-06",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-YCC0XD",
+      "room_id": "garden-6",
+      "guest_name": "Yuki Smith",
+      "guests": 1,
+      "check_in": "2026-11-04",
+      "check_out": "2026-11-05",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-48QYUJ",
+      "room_id": "ocean-4",
+      "guest_name": "Ji-woo Torres",
+      "guests": 1,
+      "check_in": "2026-11-04",
+      "check_out": "2026-11-06",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-89JREA",
+      "room_id": "family-2",
+      "guest_name": "Andrea Cruz",
+      "guests": 2,
+      "check_in": "2026-11-05",
+      "check_out": "2026-11-10",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-9U3Q3Z",
+      "room_id": "garden-1",
+      "guest_name": "Grace Rossi",
+      "guests": 1,
+      "check_in": "2026-11-05",
+      "check_out": "2026-11-08",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-GUZ36T",
+      "room_id": "garden-4",
+      "guest_name": "Noah Cruz",
+      "guests": 2,
+      "check_in": "2026-11-06",
+      "check_out": "2026-11-08",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-MKMKLF",
+      "room_id": "garden-5",
+      "guest_name": "Rafael Tan",
+      "guests": 1,
+      "check_in": "2026-11-06",
+      "check_out": "2026-11-09",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-ZLNJIK",
+      "room_id": "ocean-3",
+      "guest_name": "Marco Reyes",
+      "guests": 1,
+      "check_in": "2026-11-06",
+      "check_out": "2026-11-07",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-64KOH3",
+      "room_id": "villa-1",
+      "guest_name": "Daniel Torres",
+      "guests": 1,
+      "check_in": "2026-11-06",
+      "check_out": "2026-11-08",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-LM7OW3",
+      "room_id": "family-1",
+      "guest_name": "Rafael Reyes",
+      "guests": 3,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-09",
+      "total_amount": 23000
+    },
+    {
+      "code": "IA-WHPS3E",
+      "room_id": "garden-3",
+      "guest_name": "Marco Aquino",
+      "guests": 1,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-10",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-ETVCUC",
+      "room_id": "ocean-2",
+      "guest_name": "Miguel Khan",
+      "guests": 1,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-08",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-6UPEGI",
+      "room_id": "ocean-3",
+      "guest_name": "Emma Tanaka",
+      "guests": 2,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-08",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-4QZWW5",
+      "room_id": "ocean-4",
+      "guest_name": "Grace Smith",
+      "guests": 3,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-09",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-D4G9MV",
+      "room_id": "villa-2",
+      "guest_name": "Emma Dubois",
+      "guests": 4,
+      "check_in": "2026-11-07",
+      "check_out": "2026-11-09",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-QUH4QU",
+      "room_id": "garden-1",
+      "guest_name": "Rafael Bautista",
+      "guests": 2,
+      "check_in": "2026-11-08",
+      "check_out": "2026-11-13",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-85CE7N",
+      "room_id": "garden-6",
+      "guest_name": "Sofia Villanueva",
+      "guests": 1,
+      "check_in": "2026-11-08",
+      "check_out": "2026-11-13",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-R60IV9",
+      "room_id": "ocean-3",
+      "guest_name": "Andrea Bautista",
+      "guests": 2,
+      "check_in": "2026-11-08",
+      "check_out": "2026-11-11",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-IX9WIE",
+      "room_id": "garden-2",
+      "guest_name": "Ji-woo Rossi",
+      "guests": 1,
+      "check_in": "2026-11-09",
+      "check_out": "2026-11-14",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-PRZDFJ",
+      "room_id": "family-2",
+      "guest_name": "Miguel Garcia",
+      "guests": 2,
+      "check_in": "2026-11-10",
+      "check_out": "2026-11-13",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-WE5OWE",
+      "room_id": "garden-5",
+      "guest_name": "Liam Tan",
+      "guests": 2,
+      "check_in": "2026-11-10",
+      "check_out": "2026-11-13",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-MVRWAU",
+      "room_id": "ocean-1",
+      "guest_name": "Camille Rossi",
+      "guests": 3,
+      "check_in": "2026-11-10",
+      "check_out": "2026-11-14",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-H81WUI",
+      "room_id": "ocean-4",
+      "guest_name": "Yuki Reyes",
+      "guests": 3,
+      "check_in": "2026-11-10",
+      "check_out": "2026-11-12",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-RJEPZH",
+      "room_id": "villa-1",
+      "guest_name": "Paolo Dubois",
+      "guests": 4,
+      "check_in": "2026-11-10",
+      "check_out": "2026-11-12",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-28NQTT",
+      "room_id": "garden-4",
+      "guest_name": "Sofia Aquino",
+      "guests": 2,
+      "check_in": "2026-11-12",
+      "check_out": "2026-11-17",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-ZBCPMQ",
+      "room_id": "villa-1",
+      "guest_name": "Carlo Khan",
+      "guests": 1,
+      "check_in": "2026-11-12",
+      "check_out": "2026-11-14",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-OON5Y8",
+      "room_id": "villa-2",
+      "guest_name": "Lucas Reyes",
+      "guests": 2,
+      "check_in": "2026-11-12",
+      "check_out": "2026-11-16",
+      "total_amount": 64000
+    },
+    {
+      "code": "IA-D8RSJA",
+      "room_id": "family-2",
+      "guest_name": "Bea Bautista",
+      "guests": 2,
+      "check_in": "2026-11-13",
+      "check_out": "2026-11-16",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-M65OYR",
+      "room_id": "garden-3",
+      "guest_name": "Emma Tan",
+      "guests": 1,
+      "check_in": "2026-11-13",
+      "check_out": "2026-11-15",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-ZPGUVD",
+      "room_id": "garden-6",
+      "guest_name": "Marco Garcia",
+      "guests": 1,
+      "check_in": "2026-11-13",
+      "check_out": "2026-11-16",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-YT6LNC",
+      "room_id": "ocean-3",
+      "guest_name": "Marco Khan",
+      "guests": 2,
+      "check_in": "2026-11-13",
+      "check_out": "2026-11-14",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-T2N1C2",
+      "room_id": "garden-2",
+      "guest_name": "Miguel Villanueva",
+      "guests": 2,
+      "check_in": "2026-11-14",
+      "check_out": "2026-11-16",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-IAF5BR",
+      "room_id": "ocean-2",
+      "guest_name": "Lucas Ramos",
+      "guests": 3,
+      "check_in": "2026-11-14",
+      "check_out": "2026-11-15",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-3OO5YR",
+      "room_id": "ocean-3",
+      "guest_name": "Chloe Kim",
+      "guests": 1,
+      "check_in": "2026-11-14",
+      "check_out": "2026-11-16",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-M09J6S",
+      "room_id": "villa-1",
+      "guest_name": "Maria Rossi",
+      "guests": 3,
+      "check_in": "2026-11-14",
+      "check_out": "2026-11-15",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-U56TC5",
+      "room_id": "garden-1",
+      "guest_name": "Jose Lim",
+      "guests": 1,
+      "check_in": "2026-11-15",
+      "check_out": "2026-11-18",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-4D0GKP",
+      "room_id": "garden-3",
+      "guest_name": "Carlo Brown",
+      "guests": 2,
+      "check_in": "2026-11-15",
+      "check_out": "2026-11-16",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-M6IRDT",
+      "room_id": "ocean-2",
+      "guest_name": "Carlo Cruz",
+      "guests": 2,
+      "check_in": "2026-11-15",
+      "check_out": "2026-11-16",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-JFEVZG",
+      "room_id": "villa-1",
+      "guest_name": "Lucas Kim",
+      "guests": 3,
+      "check_in": "2026-11-16",
+      "check_out": "2026-11-20",
+      "total_amount": 64000
+    },
+    {
+      "code": "IA-9Q9NC0",
+      "room_id": "garden-3",
+      "guest_name": "Yuki Mendoza",
+      "guests": 2,
+      "check_in": "2026-11-17",
+      "check_out": "2026-11-18",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-C4VLMW",
+      "room_id": "garden-6",
+      "guest_name": "Aisha Dubois",
+      "guests": 2,
+      "check_in": "2026-11-17",
+      "check_out": "2026-11-22",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-18J1G5",
+      "room_id": "ocean-2",
+      "guest_name": "Bea Garcia",
+      "guests": 3,
+      "check_in": "2026-11-17",
+      "check_out": "2026-11-18",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-Q9Y6W3",
+      "room_id": "ocean-4",
+      "guest_name": "Andrea Khan",
+      "guests": 3,
+      "check_in": "2026-11-17",
+      "check_out": "2026-11-18",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-WJ33LC",
+      "room_id": "family-1",
+      "guest_name": "Maria Villanueva",
+      "guests": 5,
+      "check_in": "2026-11-18",
+      "check_out": "2026-11-23",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-6ONI86",
+      "room_id": "garden-1",
+      "guest_name": "Noah Tan",
+      "guests": 1,
+      "check_in": "2026-11-18",
+      "check_out": "2026-11-19",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-S1VFVO",
+      "room_id": "villa-2",
+      "guest_name": "Jose Villanueva",
+      "guests": 4,
+      "check_in": "2026-11-18",
+      "check_out": "2026-11-22",
+      "total_amount": 64000
+    },
+    {
+      "code": "IA-U0GDOH",
+      "room_id": "family-2",
+      "guest_name": "Yuki Smith",
+      "guests": 3,
+      "check_in": "2026-11-19",
+      "check_out": "2026-11-22",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-HK3ZRO",
+      "room_id": "garden-1",
+      "guest_name": "Chloe Torres",
+      "guests": 1,
+      "check_in": "2026-11-19",
+      "check_out": "2026-11-24",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-UULH1Q",
+      "room_id": "ocean-4",
+      "guest_name": "Bea Reyes",
+      "guests": 3,
+      "check_in": "2026-11-19",
+      "check_out": "2026-11-24",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-I7944U",
+      "room_id": "ocean-2",
+      "guest_name": "Miguel Mendoza",
+      "guests": 3,
+      "check_in": "2026-11-20",
+      "check_out": "2026-11-21",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-7NW7EP",
+      "room_id": "ocean-3",
+      "guest_name": "Bea Kim",
+      "guests": 3,
+      "check_in": "2026-11-20",
+      "check_out": "2026-11-23",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-2LEKWA",
+      "room_id": "villa-1",
+      "guest_name": "Daniel Tanaka",
+      "guests": 3,
+      "check_in": "2026-11-20",
+      "check_out": "2026-11-22",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-63EX9B",
+      "room_id": "garden-2",
+      "guest_name": "Sofia Kim",
+      "guests": 2,
+      "check_in": "2026-11-21",
+      "check_out": "2026-11-22",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-MKVI8K",
+      "room_id": "garden-3",
+      "guest_name": "Miguel Aquino",
+      "guests": 1,
+      "check_in": "2026-11-21",
+      "check_out": "2026-11-22",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-070JNF",
+      "room_id": "garden-5",
+      "guest_name": "Emma Villanueva",
+      "guests": 1,
+      "check_in": "2026-11-21",
+      "check_out": "2026-11-22",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-PVCOWA",
+      "room_id": "ocean-1",
+      "guest_name": "Ji-woo Garcia",
+      "guests": 1,
+      "check_in": "2026-11-21",
+      "check_out": "2026-11-24",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-Z2H0QS",
+      "room_id": "ocean-2",
+      "guest_name": "Sofia Reyes",
+      "guests": 3,
+      "check_in": "2026-11-21",
+      "check_out": "2026-11-23",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-IOOR9W",
+      "room_id": "garden-3",
+      "guest_name": "Daniel Lim",
+      "guests": 1,
+      "check_in": "2026-11-22",
+      "check_out": "2026-11-26",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-ND5XX0",
+      "room_id": "garden-5",
+      "guest_name": "Camille Santos",
+      "guests": 1,
+      "check_in": "2026-11-22",
+      "check_out": "2026-11-23",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-A5W874",
+      "room_id": "garden-6",
+      "guest_name": "Jose Smith",
+      "guests": 2,
+      "check_in": "2026-11-22",
+      "check_out": "2026-11-24",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-3NCWOP",
+      "room_id": "villa-2",
+      "guest_name": "Yuki Dubois",
+      "guests": 3,
+      "check_in": "2026-11-22",
+      "check_out": "2026-11-23",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-LZ3F64",
+      "room_id": "family-2",
+      "guest_name": "Yuki Khan",
+      "guests": 5,
+      "check_in": "2026-11-23",
+      "check_out": "2026-11-27",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-18QPSS",
+      "room_id": "villa-2",
+      "guest_name": "Yuki Kim",
+      "guests": 4,
+      "check_in": "2026-11-23",
+      "check_out": "2026-11-26",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-K1CPW7",
+      "room_id": "garden-1",
+      "guest_name": "Grace Garcia",
+      "guests": 2,
+      "check_in": "2026-11-24",
+      "check_out": "2026-11-25",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-7QVVPQ",
+      "room_id": "garden-5",
+      "guest_name": "Camille Smith",
+      "guests": 1,
+      "check_in": "2026-11-24",
+      "check_out": "2026-11-28",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-QL949X",
+      "room_id": "garden-1",
+      "guest_name": "Ji-woo Tan",
+      "guests": 1,
+      "check_in": "2026-11-25",
+      "check_out": "2026-11-27",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-JSJM39",
+      "room_id": "ocean-2",
+      "guest_name": "Ethan Torres",
+      "guests": 1,
+      "check_in": "2026-11-25",
+      "check_out": "2026-11-26",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-D04S1U",
+      "room_id": "ocean-3",
+      "guest_name": "Carlo Villanueva",
+      "guests": 2,
+      "check_in": "2026-11-25",
+      "check_out": "2026-11-30",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-E2ODAI",
+      "room_id": "ocean-4",
+      "guest_name": "Isabel Bautista",
+      "guests": 3,
+      "check_in": "2026-11-25",
+      "check_out": "2026-11-29",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-CA9F7W",
+      "room_id": "family-1",
+      "guest_name": "Lucas Mendoza",
+      "guests": 2,
+      "check_in": "2026-11-26",
+      "check_out": "2026-11-29",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-EIWMA0",
+      "room_id": "ocean-2",
+      "guest_name": "Isabel Tan",
+      "guests": 2,
+      "check_in": "2026-11-26",
+      "check_out": "2026-11-29",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-2OSYAM",
+      "room_id": "garden-1",
+      "guest_name": "Liam Kim",
+      "guests": 2,
+      "check_in": "2026-11-27",
+      "check_out": "2026-11-28",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-ZQV89K",
+      "room_id": "garden-4",
+      "guest_name": "Maria Aquino",
+      "guests": 2,
+      "check_in": "2026-11-27",
+      "check_out": "2026-11-28",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-ONAAWA",
+      "room_id": "garden-6",
+      "guest_name": "Grace Ramos",
+      "guests": 2,
+      "check_in": "2026-11-27",
+      "check_out": "2026-11-30",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-C6YFUL",
+      "room_id": "family-2",
+      "guest_name": "Camille Garcia",
+      "guests": 1,
+      "check_in": "2026-11-28",
+      "check_out": "2026-12-01",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-VMDPDS",
+      "room_id": "garden-2",
+      "guest_name": "Yuki Torres",
+      "guests": 2,
+      "check_in": "2026-11-28",
+      "check_out": "2026-11-30",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-GUA5OJ",
+      "room_id": "garden-5",
+      "guest_name": "Chloe Reyes",
+      "guests": 1,
+      "check_in": "2026-11-28",
+      "check_out": "2026-11-30",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-J90YR9",
+      "room_id": "ocean-1",
+      "guest_name": "Jose Mendoza",
+      "guests": 3,
+      "check_in": "2026-11-28",
+      "check_out": "2026-11-30",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-NK10JK",
+      "room_id": "villa-1",
+      "guest_name": "Sofia Kim",
+      "guests": 2,
+      "check_in": "2026-11-28",
+      "check_out": "2026-11-29",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-FIR5FS",
+      "room_id": "garden-1",
+      "guest_name": "Aisha Cruz",
+      "guests": 1,
+      "check_in": "2026-11-29",
+      "check_out": "2026-12-04",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-16YYRQ",
+      "room_id": "garden-3",
+      "guest_name": "Isabel Garcia",
+      "guests": 1,
+      "check_in": "2026-11-29",
+      "check_out": "2026-11-30",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-QQW04Y",
+      "room_id": "ocean-2",
+      "guest_name": "Paolo Santos",
+      "guests": 1,
+      "check_in": "2026-11-29",
+      "check_out": "2026-12-02",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-T1QIJY",
+      "room_id": "villa-2",
+      "guest_name": "Carlo Cruz",
+      "guests": 4,
+      "check_in": "2026-11-29",
+      "check_out": "2026-12-02",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-3P0V22",
+      "room_id": "garden-6",
+      "guest_name": "Aisha Bautista",
+      "guests": 1,
+      "check_in": "2026-11-30",
+      "check_out": "2026-12-03",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-CL78O2",
+      "room_id": "ocean-4",
+      "guest_name": "Rafael Muller",
+      "guests": 3,
+      "check_in": "2026-11-30",
+      "check_out": "2026-12-05",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-BPKOX3",
+      "room_id": "family-1",
+      "guest_name": "Yuki Smith",
+      "guests": 5,
+      "check_in": "2026-12-01",
+      "check_out": "2026-12-05",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-6WBVHX",
+      "room_id": "villa-1",
+      "guest_name": "Ethan Santos",
+      "guests": 3,
+      "check_in": "2026-12-01",
+      "check_out": "2026-12-04",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-X4YXWE",
+      "room_id": "ocean-2",
+      "guest_name": "Lucas Smith",
+      "guests": 2,
+      "check_in": "2026-12-02",
+      "check_out": "2026-12-05",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-9B17DX",
+      "room_id": "villa-2",
+      "guest_name": "Yuki Reyes",
+      "guests": 1,
+      "check_in": "2026-12-02",
+      "check_out": "2026-12-05",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-G5XQ97",
+      "room_id": "family-2",
+      "guest_name": "Bea Brown",
+      "guests": 4,
+      "check_in": "2026-12-03",
+      "check_out": "2026-12-07",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-0PVQ35",
+      "room_id": "garden-2",
+      "guest_name": "Andrea Smith",
+      "guests": 2,
+      "check_in": "2026-12-03",
+      "check_out": "2026-12-05",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-VLFP4Y",
+      "room_id": "ocean-1",
+      "guest_name": "Camille Mendoza",
+      "guests": 3,
+      "check_in": "2026-12-03",
+      "check_out": "2026-12-04",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-HCB8UJ",
+      "room_id": "garden-1",
+      "guest_name": "Grace Rossi",
+      "guests": 1,
+      "check_in": "2026-12-04",
+      "check_out": "2026-12-06",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-NT3XYU",
+      "room_id": "garden-5",
+      "guest_name": "Grace Muller",
+      "guests": 2,
+      "check_in": "2026-12-04",
+      "check_out": "2026-12-05",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-3DZ5CP",
+      "room_id": "ocean-3",
+      "guest_name": "Chloe Tan",
+      "guests": 1,
+      "check_in": "2026-12-04",
+      "check_out": "2026-12-05",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-D5HTWQ",
+      "room_id": "family-1",
+      "guest_name": "Rafael Tanaka",
+      "guests": 4,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-06",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-SR092L",
+      "room_id": "garden-3",
+      "guest_name": "Carlo Garcia",
+      "guests": 2,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-08",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-DHAVSI",
+      "room_id": "garden-4",
+      "guest_name": "Emma Reyes",
+      "guests": 1,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-06",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-5UG22I",
+      "room_id": "garden-5",
+      "guest_name": "Lucas Lim",
+      "guests": 1,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-07",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-7GWTZO",
+      "room_id": "ocean-1",
+      "guest_name": "Miguel Rossi",
+      "guests": 3,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-06",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-6BIVQP",
+      "room_id": "ocean-4",
+      "guest_name": "Ji-woo Khan",
+      "guests": 3,
+      "check_in": "2026-12-05",
+      "check_out": "2026-12-08",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-DH24DG",
+      "room_id": "garden-4",
+      "guest_name": "Liam Khan",
+      "guests": 1,
+      "check_in": "2026-12-06",
+      "check_out": "2026-12-10",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-75JQOA",
+      "room_id": "ocean-2",
+      "guest_name": "Yuki Brown",
+      "guests": 2,
+      "check_in": "2026-12-06",
+      "check_out": "2026-12-11",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-VMAOQX",
+      "room_id": "family-2",
+      "guest_name": "Daniel Lim",
+      "guests": 3,
+      "check_in": "2026-12-07",
+      "check_out": "2026-12-12",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-3F46XP",
+      "room_id": "garden-5",
+      "guest_name": "Sofia Tan",
+      "guests": 2,
+      "check_in": "2026-12-07",
+      "check_out": "2026-12-12",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-SVOWGH",
+      "room_id": "villa-2",
+      "guest_name": "Emma Kim",
+      "guests": 3,
+      "check_in": "2026-12-07",
+      "check_out": "2026-12-08",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-KN1C0K",
+      "room_id": "family-1",
+      "guest_name": "Lucas Tan",
+      "guests": 4,
+      "check_in": "2026-12-08",
+      "check_out": "2026-12-09",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-6GSH6Y",
+      "room_id": "garden-1",
+      "guest_name": "Sofia Brown",
+      "guests": 1,
+      "check_in": "2026-12-08",
+      "check_out": "2026-12-12",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-W1LF3V",
+      "room_id": "ocean-4",
+      "guest_name": "Sofia Lim",
+      "guests": 1,
+      "check_in": "2026-12-08",
+      "check_out": "2026-12-13",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-243YI4",
+      "room_id": "villa-1",
+      "guest_name": "Sofia Garcia",
+      "guests": 1,
+      "check_in": "2026-12-08",
+      "check_out": "2026-12-10",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-BS5GB4",
+      "room_id": "villa-2",
+      "guest_name": "Bea Brown",
+      "guests": 3,
+      "check_in": "2026-12-08",
+      "check_out": "2026-12-10",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-50BNGQ",
+      "room_id": "garden-2",
+      "guest_name": "Jose Mendoza",
+      "guests": 1,
+      "check_in": "2026-12-09",
+      "check_out": "2026-12-11",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-RT8AOH",
+      "room_id": "garden-3",
+      "guest_name": "Hannah Rossi",
+      "guests": 2,
+      "check_in": "2026-12-09",
+      "check_out": "2026-12-10",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-GL80CI",
+      "room_id": "ocean-1",
+      "guest_name": "Grace Villanueva",
+      "guests": 2,
+      "check_in": "2026-12-09",
+      "check_out": "2026-12-12",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-FF1KKS",
+      "room_id": "villa-2",
+      "guest_name": "Maria Torres",
+      "guests": 1,
+      "check_in": "2026-12-10",
+      "check_out": "2026-12-15",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-NDUT58",
+      "room_id": "garden-6",
+      "guest_name": "Liam Rossi",
+      "guests": 2,
+      "check_in": "2026-12-11",
+      "check_out": "2026-12-13",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-H3YG4S",
+      "room_id": "villa-1",
+      "guest_name": "Paolo Cruz",
+      "guests": 3,
+      "check_in": "2026-12-11",
+      "check_out": "2026-12-13",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-9O1SU4",
+      "room_id": "family-1",
+      "guest_name": "Ji-woo Cruz",
+      "guests": 2,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-14",
+      "total_amount": 23000
+    },
+    {
+      "code": "IA-GF5YOP",
+      "room_id": "family-2",
+      "guest_name": "Andrea Lim",
+      "guests": 3,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-13",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-JVJN4E",
+      "room_id": "garden-3",
+      "guest_name": "Yuki Garcia",
+      "guests": 2,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-13",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-VID56E",
+      "room_id": "garden-4",
+      "guest_name": "Camille Lim",
+      "guests": 2,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-15",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-NRB8P9",
+      "room_id": "ocean-1",
+      "guest_name": "Miguel Kim",
+      "guests": 3,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-14",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-KJWZLN",
+      "room_id": "ocean-2",
+      "guest_name": "Camille Aquino",
+      "guests": 1,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-14",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-FHYP8U",
+      "room_id": "ocean-3",
+      "guest_name": "Sofia Khan",
+      "guests": 3,
+      "check_in": "2026-12-12",
+      "check_out": "2026-12-15",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-BD94XV",
+      "room_id": "family-2",
+      "guest_name": "Paolo Dubois",
+      "guests": 1,
+      "check_in": "2026-12-13",
+      "check_out": "2026-12-17",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-NR7OO1",
+      "room_id": "garden-3",
+      "guest_name": "Grace Lim",
+      "guests": 1,
+      "check_in": "2026-12-13",
+      "check_out": "2026-12-14",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-YPP2HG",
+      "room_id": "ocean-4",
+      "guest_name": "Maria Tanaka",
+      "guests": 2,
+      "check_in": "2026-12-13",
+      "check_out": "2026-12-18",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-18L8Z4",
+      "room_id": "villa-1",
+      "guest_name": "Andrea Garcia",
+      "guests": 1,
+      "check_in": "2026-12-13",
+      "check_out": "2026-12-14",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-O4CMJZ",
+      "room_id": "family-1",
+      "guest_name": "Carlo Aquino",
+      "guests": 1,
+      "check_in": "2026-12-15",
+      "check_out": "2026-12-19",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-IN2P6W",
+      "room_id": "garden-2",
+      "guest_name": "Hannah Aquino",
+      "guests": 1,
+      "check_in": "2026-12-15",
+      "check_out": "2026-12-19",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-NIHBNH",
+      "room_id": "garden-6",
+      "guest_name": "Carlo Bautista",
+      "guests": 2,
+      "check_in": "2026-12-15",
+      "check_out": "2026-12-18",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-69RNE3",
+      "room_id": "ocean-1",
+      "guest_name": "Ji-woo Reyes",
+      "guests": 2,
+      "check_in": "2026-12-15",
+      "check_out": "2026-12-17",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-DRL6D9",
+      "room_id": "villa-1",
+      "guest_name": "Ji-woo Reyes",
+      "guests": 1,
+      "check_in": "2026-12-15",
+      "check_out": "2026-12-20",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-C52I2M",
+      "room_id": "ocean-2",
+      "guest_name": "Miguel Villanueva",
+      "guests": 1,
+      "check_in": "2026-12-16",
+      "check_out": "2026-12-19",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-5OBAV7",
+      "room_id": "ocean-3",
+      "guest_name": "Lucas Khan",
+      "guests": 2,
+      "check_in": "2026-12-16",
+      "check_out": "2026-12-19",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-F0OR85",
+      "room_id": "villa-2",
+      "guest_name": "Chloe Reyes",
+      "guests": 4,
+      "check_in": "2026-12-16",
+      "check_out": "2026-12-17",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-9MPOVP",
+      "room_id": "family-2",
+      "guest_name": "Noah Santos",
+      "guests": 4,
+      "check_in": "2026-12-17",
+      "check_out": "2026-12-18",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-KW5FMK",
+      "room_id": "garden-3",
+      "guest_name": "Camille Santos",
+      "guests": 1,
+      "check_in": "2026-12-17",
+      "check_out": "2026-12-22",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-X4H4CJ",
+      "room_id": "garden-5",
+      "guest_name": "Carlo Tanaka",
+      "guests": 2,
+      "check_in": "2026-12-18",
+      "check_out": "2026-12-19",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-HYMS5X",
+      "room_id": "ocean-1",
+      "guest_name": "Jose Muller",
+      "guests": 2,
+      "check_in": "2026-12-18",
+      "check_out": "2026-12-19",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-50PHIW",
+      "room_id": "ocean-4",
+      "guest_name": "Liam Villanueva",
+      "guests": 2,
+      "check_in": "2026-12-18",
+      "check_out": "2026-12-21",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-13SXKD",
+      "room_id": "villa-2",
+      "guest_name": "Rafael Brown",
+      "guests": 3,
+      "check_in": "2026-12-18",
+      "check_out": "2026-12-19",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-XNSZ19",
+      "room_id": "family-1",
+      "guest_name": "Ethan Mendoza",
+      "guests": 5,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-20",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-AML97W",
+      "room_id": "garden-1",
+      "guest_name": "Hannah Brown",
+      "guests": 2,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-22",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-B2N5YI",
+      "room_id": "garden-2",
+      "guest_name": "Paolo Tan",
+      "guests": 1,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-20",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-J21B6A",
+      "room_id": "garden-4",
+      "guest_name": "Ethan Bautista",
+      "guests": 2,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-21",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-DDW0G3",
+      "room_id": "garden-5",
+      "guest_name": "Isabel Smith",
+      "guests": 2,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-20",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-WLU108",
+      "room_id": "garden-6",
+      "guest_name": "Andrea Aquino",
+      "guests": 2,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-22",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-K64YXC",
+      "room_id": "ocean-1",
+      "guest_name": "Sofia Brown",
+      "guests": 3,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-21",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-1K2O9B",
+      "room_id": "ocean-2",
+      "guest_name": "Hannah Brown",
+      "guests": 2,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-22",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-LGUTH2",
+      "room_id": "villa-2",
+      "guest_name": "Emma Lim",
+      "guests": 4,
+      "check_in": "2026-12-19",
+      "check_out": "2026-12-20",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-Q51FLP",
+      "room_id": "family-1",
+      "guest_name": "Liam Santos",
+      "guests": 5,
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-25",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-Q0GBRW",
+      "room_id": "ocean-3",
+      "guest_name": "Marco Reyes",
+      "guests": 1,
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-21",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-B9LH6G",
+      "room_id": "villa-2",
+      "guest_name": "Ethan Kim",
+      "guests": 4,
+      "check_in": "2026-12-20",
+      "check_out": "2026-12-24",
+      "total_amount": 64000
+    },
+    {
+      "code": "IA-8IZ8PZ",
+      "room_id": "family-2",
+      "guest_name": "Marco Santos",
+      "guests": 2,
+      "check_in": "2026-12-21",
+      "check_out": "2026-12-25",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-SMX47Q",
+      "room_id": "garden-4",
+      "guest_name": "Hannah Lim",
+      "guests": 2,
+      "check_in": "2026-12-21",
+      "check_out": "2026-12-25",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-HQ9O7A",
+      "room_id": "garden-5",
+      "guest_name": "Sofia Tanaka",
+      "guests": 2,
+      "check_in": "2026-12-21",
+      "check_out": "2026-12-24",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-TQ9O2K",
+      "room_id": "ocean-1",
+      "guest_name": "Noah Tan",
+      "guests": 1,
+      "check_in": "2026-12-21",
+      "check_out": "2026-12-22",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-328MNS",
+      "room_id": "ocean-4",
+      "guest_name": "Hannah Cruz",
+      "guests": 2,
+      "check_in": "2026-12-21",
+      "check_out": "2026-12-22",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-SQO44B",
+      "room_id": "garden-6",
+      "guest_name": "Isabel Tanaka",
+      "guests": 1,
+      "check_in": "2026-12-22",
+      "check_out": "2026-12-25",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-T1BGR3",
+      "room_id": "ocean-1",
+      "guest_name": "Daniel Cruz",
+      "guests": 1,
+      "check_in": "2026-12-22",
+      "check_out": "2026-12-24",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-YMZW71",
+      "room_id": "ocean-3",
+      "guest_name": "Sofia Torres",
+      "guests": 2,
+      "check_in": "2026-12-22",
+      "check_out": "2026-12-27",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-4JV8XO",
+      "room_id": "ocean-2",
+      "guest_name": "Bea Brown",
+      "guests": 1,
+      "check_in": "2026-12-23",
+      "check_out": "2026-12-26",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-10GOG5",
+      "room_id": "ocean-4",
+      "guest_name": "Andrea Dubois",
+      "guests": 1,
+      "check_in": "2026-12-23",
+      "check_out": "2026-12-27",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-W1BUHW",
+      "room_id": "villa-1",
+      "guest_name": "Miguel Santos",
+      "guests": 2,
+      "check_in": "2026-12-23",
+      "check_out": "2026-12-28",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-5C1D0R",
+      "room_id": "garden-2",
+      "guest_name": "Aisha Reyes",
+      "guests": 2,
+      "check_in": "2026-12-24",
+      "check_out": "2026-12-25",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-GEQBWR",
+      "room_id": "garden-3",
+      "guest_name": "Bea Smith",
+      "guests": 2,
+      "check_in": "2026-12-24",
+      "check_out": "2026-12-29",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-65698L",
+      "room_id": "family-1",
+      "guest_name": "Bea Khan",
+      "guests": 5,
+      "check_in": "2026-12-25",
+      "check_out": "2026-12-26",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-YJKWSK",
+      "room_id": "family-2",
+      "guest_name": "Jose Smith",
+      "guests": 1,
+      "check_in": "2026-12-25",
+      "check_out": "2026-12-28",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-3MQJD0",
+      "room_id": "garden-1",
+      "guest_name": "Yuki Torres",
+      "guests": 2,
+      "check_in": "2026-12-25",
+      "check_out": "2026-12-26",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-3K17EB",
+      "room_id": "garden-2",
+      "guest_name": "Chloe Reyes",
+      "guests": 1,
+      "check_in": "2026-12-25",
+      "check_out": "2026-12-27",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-631X13",
+      "room_id": "garden-4",
+      "guest_name": "Ethan Bautista",
+      "guests": 2,
+      "check_in": "2026-12-25",
+      "check_out": "2026-12-27",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-0KXOG8",
+      "room_id": "family-1",
+      "guest_name": "Ethan Tanaka",
+      "guests": 5,
+      "check_in": "2026-12-26",
+      "check_out": "2026-12-27",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-1IUA5R",
+      "room_id": "garden-5",
+      "guest_name": "Paolo Santos",
+      "guests": 1,
+      "check_in": "2026-12-26",
+      "check_out": "2026-12-28",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-QO3LVI",
+      "room_id": "garden-6",
+      "guest_name": "Daniel Mendoza",
+      "guests": 1,
+      "check_in": "2026-12-26",
+      "check_out": "2026-12-29",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-M1QLNF",
+      "room_id": "villa-2",
+      "guest_name": "Ethan Reyes",
+      "guests": 3,
+      "check_in": "2026-12-26",
+      "check_out": "2026-12-27",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-TL8XQ6",
+      "room_id": "garden-1",
+      "guest_name": "Paolo Khan",
+      "guests": 1,
+      "check_in": "2026-12-27",
+      "check_out": "2026-12-30",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-KB0BTB",
+      "room_id": "garden-2",
+      "guest_name": "Andrea Khan",
+      "guests": 2,
+      "check_in": "2026-12-27",
+      "check_out": "2026-12-31",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-OX6OAR",
+      "room_id": "villa-2",
+      "guest_name": "Hannah Mendoza",
+      "guests": 3,
+      "check_in": "2026-12-27",
+      "check_out": "2027-01-01",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-3P1J05",
+      "room_id": "family-2",
+      "guest_name": "Marco Santos",
+      "guests": 4,
+      "check_in": "2026-12-28",
+      "check_out": "2027-01-01",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-AMU1ZE",
+      "room_id": "ocean-3",
+      "guest_name": "Andrea Khan",
+      "guests": 1,
+      "check_in": "2026-12-28",
+      "check_out": "2026-12-30",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-951TWW",
+      "room_id": "ocean-4",
+      "guest_name": "Marco Tan",
+      "guests": 3,
+      "check_in": "2026-12-28",
+      "check_out": "2026-12-30",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-24Q6BD",
+      "room_id": "villa-1",
+      "guest_name": "Camille Lim",
+      "guests": 3,
+      "check_in": "2026-12-28",
+      "check_out": "2027-01-02",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-35CJDI",
+      "room_id": "garden-3",
+      "guest_name": "Paolo Khan",
+      "guests": 1,
+      "check_in": "2026-12-29",
+      "check_out": "2027-01-03",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-12EKX5",
+      "room_id": "garden-6",
+      "guest_name": "Emma Bautista",
+      "guests": 1,
+      "check_in": "2026-12-30",
+      "check_out": "2027-01-01",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-XCUM8I",
+      "room_id": "ocean-3",
+      "guest_name": "Hannah Tan",
+      "guests": 2,
+      "check_in": "2026-12-31",
+      "check_out": "2027-01-01",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-2GMLP9",
+      "room_id": "family-1",
+      "guest_name": "Marco Lim",
+      "guests": 2,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-04",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-YMP91Y",
+      "room_id": "family-2",
+      "guest_name": "Ethan Muller",
+      "guests": 3,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-03",
+      "total_amount": 23000
+    },
+    {
+      "code": "IA-5VTC6K",
+      "room_id": "garden-1",
+      "guest_name": "Liam Torres",
+      "guests": 1,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-03",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-Q4TO4E",
+      "room_id": "garden-5",
+      "guest_name": "Hannah Torres",
+      "guests": 2,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-04",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-3817Z0",
+      "room_id": "garden-6",
+      "guest_name": "Emma Tan",
+      "guests": 1,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-04",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-GVY9T6",
+      "room_id": "ocean-4",
+      "guest_name": "Jose Smith",
+      "guests": 3,
+      "check_in": "2027-01-01",
+      "check_out": "2027-01-03",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-IZ28RN",
+      "room_id": "garden-2",
+      "guest_name": "Bea Reyes",
+      "guests": 1,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-05",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-3FUNXQ",
+      "room_id": "garden-4",
+      "guest_name": "Lucas Santos",
+      "guests": 1,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-03",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-25CJFM",
+      "room_id": "ocean-1",
+      "guest_name": "Sofia Smith",
+      "guests": 1,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-03",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-OR9Z03",
+      "room_id": "ocean-2",
+      "guest_name": "Aisha Dubois",
+      "guests": 3,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-03",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-JRGFBL",
+      "room_id": "ocean-3",
+      "guest_name": "Hannah Santos",
+      "guests": 1,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-05",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-4DGLS4",
+      "room_id": "villa-2",
+      "guest_name": "Carlo Mendoza",
+      "guests": 4,
+      "check_in": "2027-01-02",
+      "check_out": "2027-01-05",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-SUUBQI",
+      "room_id": "family-2",
+      "guest_name": "Carlo Kim",
+      "guests": 3,
+      "check_in": "2027-01-03",
+      "check_out": "2027-01-08",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-X3KAWK",
+      "room_id": "ocean-4",
+      "guest_name": "Chloe Garcia",
+      "guests": 1,
+      "check_in": "2027-01-03",
+      "check_out": "2027-01-04",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-MTPF44",
+      "room_id": "garden-4",
+      "guest_name": "Maria Ramos",
+      "guests": 2,
+      "check_in": "2027-01-04",
+      "check_out": "2027-01-08",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-9I35LU",
+      "room_id": "garden-5",
+      "guest_name": "Andrea Brown",
+      "guests": 1,
+      "check_in": "2027-01-04",
+      "check_out": "2027-01-07",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-1IBB3T",
+      "room_id": "villa-1",
+      "guest_name": "Aisha Santos",
+      "guests": 3,
+      "check_in": "2027-01-04",
+      "check_out": "2027-01-07",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-641NM1",
+      "room_id": "family-1",
+      "guest_name": "Emma Brown",
+      "guests": 4,
+      "check_in": "2027-01-05",
+      "check_out": "2027-01-08",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-O73DX4",
+      "room_id": "garden-2",
+      "guest_name": "Yuki Lim",
+      "guests": 2,
+      "check_in": "2027-01-05",
+      "check_out": "2027-01-07",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-4E8EAH",
+      "room_id": "ocean-2",
+      "guest_name": "Lucas Tanaka",
+      "guests": 2,
+      "check_in": "2027-01-05",
+      "check_out": "2027-01-06",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-S1JJ9V",
+      "room_id": "ocean-3",
+      "guest_name": "Noah Tan",
+      "guests": 1,
+      "check_in": "2027-01-05",
+      "check_out": "2027-01-10",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-C5U4QH",
+      "room_id": "garden-2",
+      "guest_name": "Camille Brown",
+      "guests": 2,
+      "check_in": "2027-01-07",
+      "check_out": "2027-01-09",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-1KM0AH",
+      "room_id": "garden-5",
+      "guest_name": "Noah Lim",
+      "guests": 1,
+      "check_in": "2027-01-07",
+      "check_out": "2027-01-12",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-2IUKKF",
+      "room_id": "ocean-1",
+      "guest_name": "Rafael Tan",
+      "guests": 2,
+      "check_in": "2027-01-07",
+      "check_out": "2027-01-11",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-VGCL5Q",
+      "room_id": "ocean-2",
+      "guest_name": "Rafael Ramos",
+      "guests": 3,
+      "check_in": "2027-01-07",
+      "check_out": "2027-01-11",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-HFEF0P",
+      "room_id": "family-2",
+      "guest_name": "Ethan Khan",
+      "guests": 3,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-09",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-DB57HG",
+      "room_id": "garden-1",
+      "guest_name": "Maria Tanaka",
+      "guests": 2,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-TUORX1",
+      "room_id": "garden-3",
+      "guest_name": "Isabel Garcia",
+      "guests": 2,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-QQEW11",
+      "room_id": "garden-4",
+      "guest_name": "Liam Santos",
+      "guests": 2,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-09",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-FON5VM",
+      "room_id": "ocean-4",
+      "guest_name": "Paolo Dubois",
+      "guests": 3,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-K73XKC",
+      "room_id": "villa-1",
+      "guest_name": "Bea Brown",
+      "guests": 3,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-UJINS0",
+      "room_id": "villa-2",
+      "guest_name": "Liam Dubois",
+      "guests": 1,
+      "check_in": "2027-01-08",
+      "check_out": "2027-01-11",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-JZLRSY",
+      "room_id": "family-1",
+      "guest_name": "Marco Reyes",
+      "guests": 2,
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-11",
+      "total_amount": 23000
+    },
+    {
+      "code": "IA-06YOIC",
+      "room_id": "family-2",
+      "guest_name": "Andrea Santos",
+      "guests": 1,
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-12",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-Y9X2RP",
+      "room_id": "garden-2",
+      "guest_name": "Camille Tan",
+      "guests": 2,
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-12",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-6BO4O8",
+      "room_id": "family-1",
+      "guest_name": "Miguel Cruz",
+      "guests": 5,
+      "check_in": "2027-01-11",
+      "check_out": "2027-01-13",
+      "total_amount": 23000
+    },
+    {
+      "code": "IA-CXMAOP",
+      "room_id": "villa-1",
+      "guest_name": "Bea Villanueva",
+      "guests": 2,
+      "check_in": "2027-01-11",
+      "check_out": "2027-01-12",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-N93SG8",
+      "room_id": "villa-2",
+      "guest_name": "Bea Aquino",
+      "guests": 1,
+      "check_in": "2027-01-11",
+      "check_out": "2027-01-13",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-HM23FS",
+      "room_id": "garden-1",
+      "guest_name": "Bea Santos",
+      "guests": 2,
+      "check_in": "2027-01-13",
+      "check_out": "2027-01-17",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-X30T5S",
+      "room_id": "ocean-2",
+      "guest_name": "Miguel Cruz",
+      "guests": 1,
+      "check_in": "2027-01-13",
+      "check_out": "2027-01-16",
+      "total_amount": 23700
+    },
+    {
+      "code": "IA-XMI32W",
+      "room_id": "ocean-3",
+      "guest_name": "Jose Torres",
+      "guests": 3,
+      "check_in": "2027-01-13",
+      "check_out": "2027-01-18",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-5C34NJ",
+      "room_id": "villa-1",
+      "guest_name": "Rafael Rossi",
+      "guests": 2,
+      "check_in": "2027-01-13",
+      "check_out": "2027-01-15",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-194G3H",
+      "room_id": "garden-3",
+      "guest_name": "Ji-woo Villanueva",
+      "guests": 1,
+      "check_in": "2027-01-14",
+      "check_out": "2027-01-17",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-7WJMBM",
+      "room_id": "garden-5",
+      "guest_name": "Ethan Aquino",
+      "guests": 1,
+      "check_in": "2027-01-14",
+      "check_out": "2027-01-19",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-RV42LK",
+      "room_id": "family-2",
+      "guest_name": "Maria Ramos",
+      "guests": 2,
+      "check_in": "2027-01-15",
+      "check_out": "2027-01-16",
+      "total_amount": 11500
+    },
+    {
+      "code": "IA-T7P1KQ",
+      "room_id": "ocean-4",
+      "guest_name": "Miguel Kim",
+      "guests": 3,
+      "check_in": "2027-01-15",
+      "check_out": "2027-01-16",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-VCZYA7",
+      "room_id": "family-1",
+      "guest_name": "Andrea Dubois",
+      "guests": 5,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-19",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-R0BOVH",
+      "room_id": "garden-2",
+      "guest_name": "Marco Kim",
+      "guests": 2,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-18",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-PGNTO4",
+      "room_id": "garden-4",
+      "guest_name": "Emma Mendoza",
+      "guests": 2,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-17",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-ESUYDL",
+      "room_id": "garden-6",
+      "guest_name": "Rafael Kim",
+      "guests": 1,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-18",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-U2U9D3",
+      "room_id": "ocean-2",
+      "guest_name": "Ji-woo Smith",
+      "guests": 1,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-17",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-V43VUQ",
+      "room_id": "villa-2",
+      "guest_name": "Sofia Garcia",
+      "guests": 1,
+      "check_in": "2027-01-16",
+      "check_out": "2027-01-17",
+      "total_amount": 16000
+    },
+    {
+      "code": "IA-1H41BX",
+      "room_id": "garden-3",
+      "guest_name": "Liam Reyes",
+      "guests": 2,
+      "check_in": "2027-01-17",
+      "check_out": "2027-01-20",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-I4H0XA",
+      "room_id": "ocean-4",
+      "guest_name": "Chloe Muller",
+      "guests": 1,
+      "check_in": "2027-01-17",
+      "check_out": "2027-01-22",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-NWBQFG",
+      "room_id": "villa-2",
+      "guest_name": "Hannah Ramos",
+      "guests": 2,
+      "check_in": "2027-01-17",
+      "check_out": "2027-01-22",
+      "total_amount": 80000
+    },
+    {
+      "code": "IA-H1W7ZU",
+      "room_id": "family-2",
+      "guest_name": "Camille Cruz",
+      "guests": 5,
+      "check_in": "2027-01-18",
+      "check_out": "2027-01-22",
+      "total_amount": 46000
+    },
+    {
+      "code": "IA-C48EJC",
+      "room_id": "garden-1",
+      "guest_name": "Maria Garcia",
+      "guests": 2,
+      "check_in": "2027-01-18",
+      "check_out": "2027-01-20",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-SGU8M3",
+      "room_id": "garden-6",
+      "guest_name": "Marco Khan",
+      "guests": 2,
+      "check_in": "2027-01-18",
+      "check_out": "2027-01-22",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-1W0QBM",
+      "room_id": "garden-5",
+      "guest_name": "Carlo Aquino",
+      "guests": 1,
+      "check_in": "2027-01-19",
+      "check_out": "2027-01-21",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-T6QNZK",
+      "room_id": "ocean-3",
+      "guest_name": "Aisha Muller",
+      "guests": 1,
+      "check_in": "2027-01-19",
+      "check_out": "2027-01-20",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-BZ7MXN",
+      "room_id": "family-1",
+      "guest_name": "Daniel Kim",
+      "guests": 3,
+      "check_in": "2027-01-20",
+      "check_out": "2027-01-23",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-7UMC0P",
+      "room_id": "villa-1",
+      "guest_name": "Bea Brown",
+      "guests": 2,
+      "check_in": "2027-01-20",
+      "check_out": "2027-01-23",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-RK9NTL",
+      "room_id": "garden-5",
+      "guest_name": "Miguel Cruz",
+      "guests": 1,
+      "check_in": "2027-01-21",
+      "check_out": "2027-01-26",
+      "total_amount": 24000
+    },
+    {
+      "code": "IA-ZOG7XF",
+      "room_id": "family-2",
+      "guest_name": "Isabel Brown",
+      "guests": 1,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-25",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-K70CD1",
+      "room_id": "garden-1",
+      "guest_name": "Rafael Villanueva",
+      "guests": 1,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-23",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-O1MH46",
+      "room_id": "garden-2",
+      "guest_name": "Ji-woo Villanueva",
+      "guests": 2,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-24",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-77D2A2",
+      "room_id": "ocean-1",
+      "guest_name": "Emma Garcia",
+      "guests": 3,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-24",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-ZS09NJ",
+      "room_id": "ocean-3",
+      "guest_name": "Andrea Villanueva",
+      "guests": 1,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-23",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-6G2FAA",
+      "room_id": "villa-2",
+      "guest_name": "Sofia Cruz",
+      "guests": 1,
+      "check_in": "2027-01-22",
+      "check_out": "2027-01-24",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-DXOP5Z",
+      "room_id": "family-1",
+      "guest_name": "Hannah Cruz",
+      "guests": 1,
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-26",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-ECH1SJ",
+      "room_id": "garden-1",
+      "guest_name": "Isabel Rossi",
+      "guests": 1,
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-26",
+      "total_amount": 14400
+    },
+    {
+      "code": "IA-JRETEU",
+      "room_id": "garden-3",
+      "guest_name": "Daniel Tan",
+      "guests": 1,
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-25",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-8KBNEW",
+      "room_id": "ocean-3",
+      "guest_name": "Ethan Mendoza",
+      "guests": 1,
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-24",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-YTJIQ4",
+      "room_id": "villa-1",
+      "guest_name": "Yuki Santos",
+      "guests": 4,
+      "check_in": "2027-01-23",
+      "check_out": "2027-01-25",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-APLMX5",
+      "room_id": "ocean-1",
+      "guest_name": "Maria Cruz",
+      "guests": 1,
+      "check_in": "2027-01-24",
+      "check_out": "2027-01-28",
+      "total_amount": 31600
+    },
+    {
+      "code": "IA-MYI1KZ",
+      "room_id": "ocean-4",
+      "guest_name": "Lucas Mendoza",
+      "guests": 2,
+      "check_in": "2027-01-24",
+      "check_out": "2027-01-25",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-6O02NN",
+      "room_id": "villa-2",
+      "guest_name": "Carlo Muller",
+      "guests": 1,
+      "check_in": "2027-01-24",
+      "check_out": "2027-01-26",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-IY9LSK",
+      "room_id": "ocean-3",
+      "guest_name": "Yuki Cruz",
+      "guests": 3,
+      "check_in": "2027-01-25",
+      "check_out": "2027-01-30",
+      "total_amount": 39500
+    },
+    {
+      "code": "IA-48XWVV",
+      "room_id": "family-1",
+      "guest_name": "Ethan Torres",
+      "guests": 2,
+      "check_in": "2027-01-26",
+      "check_out": "2027-01-29",
+      "total_amount": 34500
+    },
+    {
+      "code": "IA-ARET3O",
+      "room_id": "family-2",
+      "guest_name": "Paolo Muller",
+      "guests": 3,
+      "check_in": "2027-01-26",
+      "check_out": "2027-01-31",
+      "total_amount": 57500
+    },
+    {
+      "code": "IA-HQXT56",
+      "room_id": "ocean-2",
+      "guest_name": "Miguel Muller",
+      "guests": 2,
+      "check_in": "2027-01-26",
+      "check_out": "2027-01-27",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-B09YKV",
+      "room_id": "villa-2",
+      "guest_name": "Ethan Reyes",
+      "guests": 4,
+      "check_in": "2027-01-26",
+      "check_out": "2027-01-28",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-04SVXE",
+      "room_id": "garden-3",
+      "guest_name": "Yuki Bautista",
+      "guests": 1,
+      "check_in": "2027-01-27",
+      "check_out": "2027-01-31",
+      "total_amount": 19200
+    },
+    {
+      "code": "IA-LTE6EB",
+      "room_id": "garden-6",
+      "guest_name": "Maria Cruz",
+      "guests": 2,
+      "check_in": "2027-01-27",
+      "check_out": "2027-01-28",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-J8564Y",
+      "room_id": "ocean-4",
+      "guest_name": "Andrea Cruz",
+      "guests": 1,
+      "check_in": "2027-01-27",
+      "check_out": "2027-01-29",
+      "total_amount": 15800
+    },
+    {
+      "code": "IA-67UPZI",
+      "room_id": "garden-6",
+      "guest_name": "Carlo Khan",
+      "guests": 1,
+      "check_in": "2027-01-28",
+      "check_out": "2027-01-30",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-93133P",
+      "room_id": "villa-2",
+      "guest_name": "Camille Lim",
+      "guests": 2,
+      "check_in": "2027-01-28",
+      "check_out": "2027-01-31",
+      "total_amount": 48000
+    },
+    {
+      "code": "IA-BIK2UN",
+      "room_id": "garden-4",
+      "guest_name": "Ethan Tan",
+      "guests": 2,
+      "check_in": "2027-01-29",
+      "check_out": "2027-01-30",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-76YFH4",
+      "room_id": "villa-1",
+      "guest_name": "Lucas Villanueva",
+      "guests": 4,
+      "check_in": "2027-01-29",
+      "check_out": "2027-01-31",
+      "total_amount": 32000
+    },
+    {
+      "code": "IA-AR7W21",
+      "room_id": "garden-1",
+      "guest_name": "Rafael Kim",
+      "guests": 1,
+      "check_in": "2027-01-30",
+      "check_out": "2027-01-31",
+      "total_amount": 4800
+    },
+    {
+      "code": "IA-LQ4ED2",
+      "room_id": "garden-4",
+      "guest_name": "Ethan Mendoza",
+      "guests": 2,
+      "check_in": "2027-01-30",
+      "check_out": "2027-02-01",
+      "total_amount": 9600
+    },
+    {
+      "code": "IA-WC199W",
+      "room_id": "ocean-1",
+      "guest_name": "Emma Garcia",
+      "guests": 1,
+      "check_in": "2027-01-30",
+      "check_out": "2027-01-31",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-SJ9C96",
+      "room_id": "ocean-3",
+      "guest_name": "Liam Reyes",
+      "guests": 1,
+      "check_in": "2027-01-30",
+      "check_out": "2027-01-31",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-QWQXFM",
+      "room_id": "ocean-4",
+      "guest_name": "Hannah Torres",
+      "guests": 1,
+      "check_in": "2027-01-30",
+      "check_out": "2027-01-31",
+      "total_amount": 7900
+    },
+    {
+      "code": "IA-1Y0KII",
+      "room_id": "ocean-2",
+      "guest_name": "Maria Muller",
+      "guests": 1,
+      "check_in": "2027-01-31",
+      "check_out": "2027-02-01",
+      "total_amount": 7900
+    }
+  ]
+}

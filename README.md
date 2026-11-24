@@ -6,11 +6,11 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 
 > "Hello po" is a polite Filipino greeting, the kind you would hear when calling a front desk in the Philippines.
 
-|            |                                                                                                                                                                                                                                      |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Status** | Phase 3 (turn-taking) complete: interruptions stop in **199 ms p50, 201 ms max** (11 / 11 under 300 ms). Replies: **p50 411 ms / p95 968 ms**. See [measured performance](#measured-performance) and the [roadmap](docs/roadmap.md). |
-| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost                                                                                                                                                       |
-| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                                                                                                                                                            |
+|            |                                                                                                                                                                                                                                                      |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Status** | Phase 4a (voice booking with Stripe test payments) complete. Interruptions stop in **199 ms p50** (11 / 11 under 300 ms); replies **p50 411 ms / p95 968 ms**. See [measured performance](#measured-performance) and the [roadmap](docs/roadmap.md). |
+| **Target** | Voice-to-voice reply p50 < 800 ms, interruption stop < 300 ms, $0 running cost                                                                                                                                                                       |
+| **Stack**  | TypeScript, LiveKit Agents (Node), Deepgram, Groq, React + Vite, Supabase                                                                                                                                                                            |
 
 ---
 
@@ -39,7 +39,7 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 
 ## Features
 
-### Available now (Phases 1–3)
+### Available now (Phases 1–4a)
 
 - **Browser voice calls.** One click joins a private LiveKit room over WebRTC; no app install, no phone line.
 - **Full speech pipeline.** Deepgram streaming speech-to-text, a Groq-hosted LLM, and Deepgram Aura-2 text-to-speech.
@@ -50,11 +50,13 @@ Hello Po answers support calls for a fictional beach resort, _Isla Azul Beach Re
 - **Interrupt any time.** Talk over Mara and she goes quiet in about 200 ms. A cough or noise only pauses her for a moment before she carries on.
 - **Per-turn latency.** A live table shows each stage of every reply (end of turn, LLM first token, TTS first audio), plus every interruption's stop time.
 - **Call logging.** Calls, turns, and interruptions are saved to Supabase for reporting.
+- **Book a room by voice.** Ask for dates and Mara checks live availability, quotes prices in pesos, and puts a booking form in the chat. Confirming holds the room for 10 minutes while you pay a deposit or the full amount with Stripe (test mode). Mara announces the confirmation and an email arrives. See [the booking demo](#booking-demo).
+- **Look up a booking.** Give a booking code and last name; a single misheard character in a spoken code is tolerated.
 - **Swappable providers.** Each vendor (STT, LLM, TTS, VAD) is created in a single factory file, so replacing one is a one-file change.
 
 ### Planned
 
-Latency waterfall chart, knowledge-base retrieval, booking and availability tools, support tickets, human handoff, sentiment tracking, a metrics dashboard, an automated eval suite, and a passcode-protected public demo. See the [roadmap](docs/roadmap.md).
+Latency waterfall chart, knowledge-base retrieval, support tickets, human handoff, sentiment tracking, a metrics dashboard, an automated eval suite, and a passcode-protected public demo. See the [roadmap](docs/roadmap.md).
 
 ---
 
@@ -99,6 +101,52 @@ The same calls measured voice-to-voice p50 411 ms and p95 968 ms over 21 turns. 
 
 ```bash
 npm run latency:report -- --since 2026-11-23T19:40 --last 100
+```
+
+---
+
+## Booking demo
+
+The demo resort has 14 rooms in four types, with about 290 random bookings across this month and the next two, so some dates are full and others are open.
+
+| Room             | Guests | Per night | Rooms |
+| ---------------- | ------ | --------- | ----- |
+| Garden Room      | 2      | ₱4,800    | 6     |
+| Ocean View Room  | 3      | ₱7,900    | 4     |
+| Family Suite     | 5      | ₱11,500   | 2     |
+| Beachfront Villa | 4      | ₱16,000   | 2     |
+
+```mermaid
+sequenceDiagram
+    participant C as Caller (browser)
+    participant M as Mara (agent)
+    participant DB as Supabase
+    participant API as Token server
+    participant S as Stripe (test)
+    C->>M: "Rooms from Dec 12 to 15 for two?"
+    M->>DB: check_availability()
+    M-->>C: quotes prices, shows booking form
+    C->>API: Confirm (room, name, email, full or 50%)
+    API->>DB: create_hold(), room held 10 min
+    API->>S: Checkout Session (PHP)
+    C->>S: pays with a test card
+    API->>S: polls, or receives the webhook
+    API->>DB: confirmed
+    API-->>C: confirmation email (Resend)
+    C->>M: booking_update confirmed
+    M-->>C: "You're all set, your code is..."
+```
+
+- **No double-booking.** A Postgres exclusion constraint allows one active booking per room per night, so two callers racing for the last room can't both win.
+- **The 10-minute hold.** Stripe requires a Checkout Session to stay open for at least 30 minutes, so the hold is enforced by the server: when it lapses, the room is released and the Stripe payment link is closed. A payment that slips through for a room someone else took is refunded automatically.
+- **Payment confirmation without a public URL.** The booking form polls the server, which asks Stripe for the session status, so the demo works locally. The Stripe webhook is also supported when `STRIPE_WEBHOOK_SECRET` is set.
+- **Test card:** `4242 4242 4242 4242`, any future expiry date, any CVC. No real money moves.
+- **Email:** sent with Resend. Without a verified domain, Resend only delivers to the address that owns the Resend account.
+
+Regenerate the demo calendar (keeps bookings made in calls):
+
+```bash
+npm run seed:bookings
 ```
 
 ---
@@ -222,12 +270,14 @@ hello-po/
 
 All providers have free tiers. **Do not add a credit card** to any of them: without one, exceeding a quota fails safely instead of billing you.
 
-| Provider          | Sign up                                              | What you need                                                                                                                                                                                                                  |
-| ----------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **LiveKit Cloud** | [cloud.livekit.io](https://cloud.livekit.io)         | Create a project, then open **Manage API keys** on the project overview. Copy the WebSocket URL (`wss://…livekit.cloud`), the API key (`API…`), and the API secret (a ~44 character string, **not** a generated `eyJ…` token). |
-| **Deepgram**      | [console.deepgram.com](https://console.deepgram.com) | **API Keys → Create key.** One key covers both speech-to-text and text-to-speech.                                                                                                                                              |
-| **Groq**          | [console.groq.com](https://console.groq.com)         | **API Keys → Create key** (starts with `gsk_`).                                                                                                                                                                                |
-| **Supabase**      | [supabase.com](https://supabase.com)                 | New project, then **Project Settings → API Keys**. Copy the Project URL and a **secret key** (`sb_secret_…`). Then run each file in `supabase/migrations/` in order in the **SQL editor**.                                     |
+| Provider          | Sign up                                                       | What you need                                                                                                                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **LiveKit Cloud** | [cloud.livekit.io](https://cloud.livekit.io)                  | Create a project, then open **Manage API keys** on the project overview. Copy the WebSocket URL (`wss://…livekit.cloud`), the API key (`API…`), and the API secret (a ~44 character string, **not** a generated `eyJ…` token).                      |
+| **Deepgram**      | [console.deepgram.com](https://console.deepgram.com)          | **API Keys → Create key.** One key covers both speech-to-text and text-to-speech.                                                                                                                                                                   |
+| **Groq**          | [console.groq.com](https://console.groq.com)                  | **API Keys → Create key** (starts with `gsk_`).                                                                                                                                                                                                     |
+| **Supabase**      | [supabase.com](https://supabase.com)                          | New project, then **Project Settings → API Keys**. Copy the Project URL and a **secret key** (`sb_secret_…`). Then run each file in `supabase/migrations/` in order in the **SQL editor**, and load the demo calendar with `npm run seed:bookings`. |
+| **Stripe**        | [dashboard.stripe.com](https://dashboard.stripe.com/register) | Skip business activation. In **test mode**, open **Developers → API keys** and copy the secret key (`sk_test_…`).                                                                                                                                   |
+| **Resend**        | [resend.com](https://resend.com)                              | **API Keys → Create API Key** (starts with `re_`). Sign up with the email you will test bookings with.                                                                                                                                              |
 
 ### 2. Install
 
@@ -301,6 +351,7 @@ Run from the repo root.
 | `npm run format`         | Format the whole repo with Prettier                                                                                    |
 | `npm run format:check`   | Check formatting without writing                                                                                       |
 | `npm run latency:report` | Print p50 / p95 latency per stage and interruption stop times (`--since TIME`, `--local`, `--lines FILE`, or Supabase) |
+| `npm run seed:bookings`  | Generate demo bookings for this month and the next two and load them into Supabase (`--json-only`, `--seed N`)         |
 
 TypeScript runs directly on Node 24 through native type stripping, so the agent and token server have no build step in development.
 
@@ -322,13 +373,18 @@ All variables live in `.env` at the repo root. See [`.env.example`](.env.example
 
 ### Used in later phases
 
-| Variable              | Description                                                         |
-| --------------------- | ------------------------------------------------------------------- |
-| `SUPABASE_URL`        | Supabase project URL                                                |
-| `SUPABASE_SECRET_KEY` | Supabase secret key (server-side only; bypasses row-level security) |
-| `DEMO_PASSCODE`       | Passcode required before a public visitor can start a call          |
-| `DEMO_PAUSED`         | `true` blocks new calls (kill switch)                               |
-| `MAX_SESSION_SECONDS` | Hard limit per call, default `120`                                  |
+| Variable                | Description                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| `SUPABASE_URL`          | Supabase project URL                                                          |
+| `SUPABASE_SECRET_KEY`   | Supabase secret key (server-side only; bypasses row-level security)           |
+| `STRIPE_SECRET_KEY`     | Stripe **test-mode** secret key, read by the token server only                |
+| `STRIPE_WEBHOOK_SECRET` | Optional; enables the Stripe webhook (`stripe listen` prints it)              |
+| `RESEND_API_KEY`        | Resend key for booking confirmation emails                                    |
+| `EMAIL_FROM`            | Optional sender, default `onboarding@resend.dev`                              |
+| `WEB_URL`               | Where Stripe returns the caller after paying, default `http://localhost:5173` |
+| `DEMO_PASSCODE`         | Passcode required before a public visitor can start a call                    |
+| `DEMO_PAUSED`           | `true` blocks new calls (kill switch)                                         |
+| `MAX_SESSION_SECONDS`   | Hard limit per call, default `120`                                            |
 
 ### Optional overrides
 
@@ -435,6 +491,8 @@ Use headphones. Without them, the agent's voice can reach your microphone, and b
 - **`.env` is git-ignored.** `.env.example` documents every variable without values.
 - **One room per call.** Each call gets a random room name, so callers never share a room.
 - **No card on file.** Every provider runs on a free tier without a payment method, so quota overruns fail rather than bill.
+- **Stripe test mode only.** Payments use a `sk_test_` key and Stripe test cards. The browser never sees Stripe keys or the guest's stored email; the booking API returns only what the form displays.
+- **Validated booking input.** The server re-checks dates, guest counts and email addresses, and the database enforces one booking per room per night.
 - **Public demo guardrails (Phase 6):** passcode gate, per-IP daily call limit, concurrent call cap, two-minute session limit, and a pause switch.
 
 ---
@@ -446,7 +504,8 @@ Use headphones. Without them, the agent's voice can reach your microphone, and b
 | 1     | **MVP:** working browser voice call with a live transcript                     | Done    |
 | 2     | **Latency:** per-stage timing, Supabase logging, p50 < 1 s                     | Done    |
 | 3     | **Turn-taking:** barge-in, VAD and turn-detector tuning, stop < 300 ms         | Done    |
-| 4     | **Brain:** knowledge base, tools, handoff rules, sentiment                     | Next    |
+| 4a    | **Booking:** availability, chat booking form, 10-minute hold, Stripe, email    | Done    |
+| 4b    | **Brain:** knowledge base, tickets, handoff rules, sentiment                   | Next    |
 | 5     | **UI and evals:** latency waterfall, sentiment panel, metrics page, eval suite | Planned |
 | 6     | **Ship:** deploy, cost guardrails, case study                                  | Planned |
 

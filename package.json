@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "latency:report": "node scripts/latency-report.ts"
+    "latency:report": "node scripts/latency-report.ts",
+    "seed:bookings": "node scripts/seed-bookings.ts"
   },
   "dependencies": {
     "@livekit/agents": "1.10.1"

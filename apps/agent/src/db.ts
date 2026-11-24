@@ -72,3 +72,45 @@ export async function insertInterruption(row: {
 }
 
 export const dbEnabled = enabled;
+
+/**
+ * Calls a Postgres function. Unlike the logging helpers above, this throws, because a tool
+ * needs to tell the model that the lookup failed rather than silently returning nothing.
+ */
+export async function rpc<T>(fn: string, args: Record<string, unknown>): Promise<T> {
+  if (!enabled) throw new Error('Supabase is not configured');
+  const res = await fetch(`${config.supabaseUrl}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify(args),
+  });
+  const body = (await res.json()) as T | { message?: string };
+  if (!res.ok) throw new Error((body as { message?: string }).message ?? `rpc ${fn} ${res.status}`);
+  return body as T;
+}
+
+/** Reads rows with a PostgREST query string. Throws on failure, like rpc(). */
+export async function select<T>(query: string): Promise<T[]> {
+  if (!enabled) throw new Error('Supabase is not configured');
+  const res = await fetch(`${config.supabaseUrl}/rest/v1/${query}`, { headers: headers() });
+  if (!res.ok) throw new Error(`select ${res.status}: ${await res.text()}`);
+  return (await res.json()) as T[];
+}
+
+/**
+ * Keeps an HTTPS connection to Supabase open for the length of a call. Node closes idle
+ * connections after about 4 s, and a fresh one from us-east costs ~700 ms, so booking tools
+ * paid that on every lookup. A tiny request every 3 s keeps them at one round trip.
+ * Returns a function that stops it.
+ */
+export function keepSupabaseWarm(intervalMs = 3000): () => void {
+  if (!enabled) return () => undefined;
+  const ping = () =>
+    fetch(`${config.supabaseUrl}/rest/v1/room_types?select=id&limit=1`, {
+      method: 'HEAD',
+      headers: headers(),
+    }).catch(() => undefined);
+  void ping();
+  const timer = setInterval(ping, intervalMs);
+  return () => clearInterval(timer);
+}

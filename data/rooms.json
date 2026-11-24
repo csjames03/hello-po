@@ -1,0 +1,39 @@
+{
+  "currency": "PHP",
+  "holdMinutes": 10,
+  "depositPercent": 50,
+  "roomTypes": [
+    {
+      "id": "garden",
+      "name": "Garden Room",
+      "description": "Queen bed facing the tropical garden, with a rain shower.",
+      "maxGuests": 2,
+      "nightlyRate": 4800,
+      "units": 6
+    },
+    {
+      "id": "ocean",
+      "name": "Ocean View Room",
+      "description": "King bed and a private balcony overlooking the sea.",
+      "maxGuests": 3,
+      "nightlyRate": 7900,
+      "units": 4
+    },
+    {
+      "id": "family",
+      "name": "Family Suite",
+      "description": "Two bedrooms and a living area, steps from the infinity pool.",
+      "maxGuests": 5,
+      "nightlyRate": 11500,
+      "units": 2
+    },
+    {
+      "id": "villa",
+      "name": "Beachfront Villa",
+      "description": "Private villa on the sand with its own plunge pool.",
+      "maxGuests": 4,
+      "nightlyRate": 16000,
+      "units": 2
+    }
+  ]
+}

@@ -2,14 +2,15 @@
 
 Hello Po is built in phases. Each phase ends with something that can be demonstrated, and has explicit acceptance criteria.
 
-| Phase                                        | Focus                           | Status  |
-| -------------------------------------------- | ------------------------------- | ------- |
-| [1](#phase-1--mvp)                           | MVP: working voice call         | Done    |
-| [2](#phase-2--latency)                       | Latency                         | Done    |
-| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking   | Done    |
-| [4](#phase-4--brain)                         | Knowledge, tools, and sentiment | Next    |
-| [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals    | Planned |
-| [6](#phase-6--ship)                          | Deployment and guardrails       | Planned |
+| Phase                                        | Focus                         | Status  |
+| -------------------------------------------- | ----------------------------- | ------- |
+| [1](#phase-1--mvp)                           | MVP: working voice call       | Done    |
+| [2](#phase-2--latency)                       | Latency                       | Done    |
+| [3](#phase-3--interruptions-and-turn-taking) | Interruptions and turn-taking | Done    |
+| [4a](#phase-4a--booking)                     | Voice booking and payments    | Done    |
+| [4b](#phase-4b--brain)                       | Knowledge, tickets, sentiment | Next    |
+| [5](#phase-5--ui-observability-and-evals)    | UI, observability, and evals  | Planned |
+| [6](#phase-6--ship)                          | Deployment and guardrails     | Planned |
 
 ---
 
@@ -78,15 +79,32 @@ Hello Po is built in phases. Each phase ends with something that can be demonstr
 
 ---
 
-## Phase 4 — Brain
+## Phase 4a — Booking
+
+**Goal:** a caller can book and pay for a room by voice, end to end, as a portfolio demo.
+
+- [x] Room catalog (`data/rooms.json`) and ~290 random bookings for this month and the next two (`data/demo-bookings.json`), loaded into Supabase by `npm run seed:bookings`
+- [x] Migration `0004`: rooms, bookings, an exclusion constraint against double-booking, and the `check_availability` / `create_hold` / `confirm_booking` functions
+- [x] Tools: `checkAvailability`, `showBookingForm`, `lookupBooking` (tolerates one misheard character when the last name matches)
+- [x] Booking form in the chat: room choice, name, email, full payment or 50% deposit
+- [x] 10-minute hold with a countdown; lapsed holds release the room and close the Stripe payment link
+- [x] Stripe Checkout in test mode (PHP); payment confirmed by polling, or by webhook when configured; late payments for a taken room are refunded
+- [x] Confirmation email with Resend
+- [x] Mara announces each step (held, confirmed, expired, cancelled), verified against the database
+- [x] Filler speech and a warm database connection, so booking turns don't fall silent (5 s down to about 0.7 s)
+
+**Acceptance:** book and pay for a room by voice, with the confirmation spoken, shown, and emailed. ✅ Booking `IA-1FBAB8`, 50% deposit, confirmed end to end.
+
+---
+
+## Phase 4b — Brain
 
 **Goal:** answers grounded in real resort information, with actions the agent can take.
 
 - [ ] Markdown knowledge base: hours, check-in and check-out, amenities, cancellation and refund policy
 - [ ] Simple retrieval over the knowledge base (keyword or embedding search)
 - [ ] Tools:
-  - [ ] `checkAvailability`: room availability (mock data)
-  - [ ] `lookupBooking`: find a booking by name and booking code (mock data)
+  - [x] `checkAvailability` and `lookupBooking` (built in Phase 4a)
   - [ ] `createTicket`: create a support ticket with a call summary (Supabase)
 - [ ] Human handoff when the caller is angry, asks for a person, or is out of scope: create a ticket and say so politely
 - [ ] Guardrails: never invent policies, prices, or bookings; confirm details before acting

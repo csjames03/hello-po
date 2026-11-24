@@ -66,8 +66,73 @@ export interface HandoffEvent {
   reason: string;
 }
 
+// ---------- Booking flow (Phase 4a) ----------
+
+/** A room type the caller can book for the requested stay. Amounts are whole pesos. */
+export interface BookingOption {
+  roomTypeId: string;
+  name: string;
+  description: string;
+  maxGuests: number;
+  nightlyRate: number;
+  nights: number;
+  totalAmount: number;
+  roomsLeft: number;
+}
+
+/** Agent -> browser: show a booking form in the chat, prefilled from the conversation. */
+export interface BookingOfferEvent {
+  type: 'booking_offer';
+  offerId: string;
+  checkIn: string; // YYYY-MM-DD
+  checkOut: string; // YYYY-MM-DD, the departure day
+  guests: number;
+  options: BookingOption[];
+  selectedRoomTypeId?: string;
+  guestName?: string;
+  guestEmail?: string;
+}
+
+export type BookingStatus = 'held' | 'confirmed' | 'expired' | 'cancelled' | 'failed';
+
+/** Browser -> agent: what happened to the booking after the caller used the form. */
+export interface BookingUpdateEvent {
+  type: 'booking_update';
+  status: BookingStatus;
+  code?: string;
+  roomName?: string;
+  checkIn?: string;
+  checkOut?: string;
+  guestName?: string;
+  paymentOption?: PaymentOption;
+  amountPaid?: number;
+  totalAmount?: number;
+  holdExpiresAt?: string;
+  reason?: string;
+}
+
+export type PaymentOption = 'full' | 'deposit';
+
+/** Booking rules shared by the agent, the server, and the form. */
+export const BOOKING_RULES = {
+  currency: 'PHP',
+  holdMinutes: 10,
+  depositPercent: 50,
+  maxNights: 14,
+} as const;
+
+/** Formats whole pesos for display, e.g. 14400 -> "₱14,400". */
+export const formatPeso = (amount: number) => `₱${amount.toLocaleString('en-PH')}`;
+
 export type HelloPoEvent =
-  TranscriptEvent | SentimentEvent | LatencyEvent | InterruptEvent | ToolEvent | HandoffEvent;
+  | TranscriptEvent
+  | SentimentEvent
+  | LatencyEvent
+  | InterruptEvent
+  | ToolEvent
+  | HandoffEvent
+  | BookingOfferEvent
+  | BookingUpdateEvent;
 
 /** Agent identity used for dispatch, so token server and worker agree. */
 export const AGENT_NAME = 'hello-po-agent';

@@ -1,5 +1,5 @@
 // Hello Po agent worker: joins each call room and runs STT -> LLM -> TTS.
-import { AGENT_NAME } from '@hello-po/shared';
+import { AGENT_NAME, EVENTS_TOPIC, type HelloPoEvent } from '@hello-po/shared';
 import {
   type JobContext,
   type JobProcess,
@@ -8,14 +8,22 @@ import {
   defineAgent,
   voice,
 } from '@livekit/agents';
-import { ParticipantKind } from '@livekit/rtc-node';
+import { ParticipantKind, RoomEvent } from '@livekit/rtc-node';
 import { fileURLToPath } from 'node:url';
+import { createBookingTools, describeBookingUpdate, resortToday } from './booking.ts';
 import { config } from './config.ts';
-import { createCall, dbEnabled, endCall, insertInterruption, insertTurn } from './db.ts';
+import {
+  createCall,
+  dbEnabled,
+  endCall,
+  insertInterruption,
+  insertTurn,
+  keepSupabaseWarm,
+} from './db.ts';
 import { publishEvent } from './events.ts';
 import { formatInterrupt, onInterrupt } from './interruptions.ts';
 import { formatTurn, onTurnLatency } from './latency.ts';
-import { greeting, instructions } from './prompt.ts';
+import { buildInstructions, greeting } from './prompt.ts';
 import { createLlm, createStt, createTts, endpointingMinDelayMs, loadVad } from './providers.ts';
 import { appendLocalInterrupt, appendLocalTurn } from './turn-log.ts';
 
@@ -107,10 +115,35 @@ export default defineAgent({
       const callId = await callIdPromise;
       if (callId) await endCall(callId);
     };
-    session.on(voice.AgentSessionEventTypes.Close, () => void markEnded());
+    // Booking tools query Supabase; keep that connection warm while the call lasts.
+    const stopWarm = keepSupabaseWarm();
+    session.on(voice.AgentSessionEventTypes.Close, () => {
+      stopWarm();
+      void markEnded();
+    });
     ctx.addShutdownCallback(markEnded);
 
-    await session.start({ agent: new voice.Agent({ instructions }), room: ctx.room });
+    const agent = new voice.Agent({
+      instructions: buildInstructions(resortToday()),
+      tools: createBookingTools(ctx.room),
+    });
+    await session.start({ agent, room: ctx.room });
+
+    // The booking form reports back (held, paid, expired), so Mara can tell the caller.
+    ctx.room.on(RoomEvent.DataReceived, (payload, _participant, _kind, topic) => {
+      if (topic !== EVENTS_TOPIC) return;
+      let event: HelloPoEvent;
+      try {
+        event = JSON.parse(new TextDecoder().decode(payload)) as HelloPoEvent;
+      } catch {
+        return;
+      }
+      if (event.type !== 'booking_update') return;
+      console.log(`[booking] ${event.status}${event.code ? ' ' + event.code : ''}`);
+      void describeBookingUpdate(event).then((instructions) => {
+        if (instructions) session.generateReply({ instructions });
+      });
+    });
 
     // Log how fast the agent goes silent when the caller talks over it. This watches the audio
     // output, which exists only after start().

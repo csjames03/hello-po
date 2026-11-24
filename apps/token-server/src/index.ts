@@ -1,13 +1,20 @@
-// Mints a LiveKit access token for one call and dispatches the Hello Po agent into its room.
+// Hello Po API: mints LiveKit tokens (dispatching the agent into each call) and runs the
+// booking flow (holds, Stripe payments, confirmation emails).
+import './env.ts';
 import { AGENT_NAME } from '@hello-po/shared';
 import { RoomAgentDispatch, RoomConfiguration } from '@livekit/protocol';
-import dotenv from 'dotenv';
 import express from 'express';
 import { AccessToken } from 'livekit-server-sdk';
 import { randomUUID } from 'node:crypto';
-import { fileURLToPath } from 'node:url';
-
-dotenv.config({ path: fileURLToPath(new URL('../../../.env', import.meta.url)), quiet: true });
+import {
+  bookingRoutes,
+  paymentsEnabled,
+  startHoldSweeper,
+  stripeWebhook,
+  webhookEnabled,
+} from './bookings.ts';
+import { emailEnabled } from './email.ts';
+import { supabaseEnabled } from './supabase.ts';
 
 const { LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET } = process.env;
 if (!LIVEKIT_URL || !LIVEKIT_API_KEY || !LIVEKIT_API_SECRET) {
@@ -15,6 +22,9 @@ if (!LIVEKIT_URL || !LIVEKIT_API_KEY || !LIVEKIT_API_SECRET) {
 }
 
 const app = express();
+// The Stripe webhook needs the raw request body, so it is mounted before any JSON parser.
+app.use('/api', stripeWebhook());
+app.use('/api', bookingRoutes());
 app.use(express.json());
 
 app.post('/api/token', async (_req, res) => {
@@ -32,5 +42,21 @@ app.post('/api/token', async (_req, res) => {
   res.json({ server_url: LIVEKIT_URL, participant_token: await at.toJwt(), room_name: roomName });
 });
 
+// Last-resort error handler: log the details, give the browser a generic message.
+app.use(
+  (err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error('[api]', err);
+    res.status(500).json({ error: 'Something went wrong. Please try again.' });
+  },
+);
+
 const port = Number(process.env.TOKEN_SERVER_PORT ?? 3001);
-app.listen(port, () => console.log(`token-server listening on http://localhost:${port}`));
+app.listen(port, () => {
+  console.log(`token-server listening on http://localhost:${port}`);
+  const on = (v: boolean) => (v ? 'on' : 'off');
+  console.log(
+    `[api] supabase=${on(supabaseEnabled)} stripe=${on(paymentsEnabled)} ` +
+      `webhook=${on(webhookEnabled)} email=${on(emailEnabled)}`,
+  );
+  if (supabaseEnabled && paymentsEnabled) startHoldSweeper();
+});
